@@ -3,21 +3,6 @@
 Created on Sat Dec 23 13:50:06 2023
 
 # uorfish  
-
-v0.9
-_x_ fix final bed output
-_x_ output cutoff
-_x_ fix load_psite_object
-___ one line command
-    _x_ ui text for stage completion
-
-v0.14
-_x_ added 40s sub calling
-_x_ incremented batch n = 100 from 10
-
-v1.0 (ejovalip)
-_x_ public beta
-
 v1.1 (boaconic):
     _x_ change validated_uorfs input to gff
     
@@ -29,11 +14,13 @@ v1.3 (doz)
     ___ add p_site_toggle
     ___ qc predictions co-ordinates
     ___ prefilter predictions for near-AUG
+    ___ one line command
+        ___ ui text for stage completion
     
     #metadata release
         ___ incorporate https://www.sciencedirect.com/science/article/pii/S2405471220302404
         
-    
+Created by Pieter Spealman (ps163@nyu.edu)
         
 ###
 Design notes:
