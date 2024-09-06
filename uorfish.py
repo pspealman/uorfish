@@ -3,24 +3,36 @@
 Created on Sat Dec 23 13:50:06 2023
 
 # uorfish  
-v1.1 (boaconic):
-    _x_ change validated_uorfs input to gff
-    
-v1.2 (providate)
-    _x_ add multiple p_site determinations
 
-v1.3 (doz)
-    ___ add modify_feature_object command
-    ___ add p_site_toggle
+v0.9
+_x_ fix final bed output
+_x_ output cutoff
+_x_ fix load_psite_object
+___ one line command
+    _x_ ui text for stage completion
+
+v0.14
+_x_ added 40s sub calling
+_x_ incremented batch n = 100 from 10
+
+v1.0 (ejovalip)
+_x_ public beta
+
+v1.1 (boaconic):
+    #metadata release
+        _x_ incorporate https://www.sciencedirect.com/science/article/pii/S2405471220302404
+    
+    #code
+        _x_ change validated_uorfs input to gff
+        _x_ add p_site_toggle
+    
+future versions
     ___ qc predictions co-ordinates
     ___ prefilter predictions for near-AUG
-    ___ one line command
-        ___ ui text for stage completion
-    
-    #metadata release
-        ___ incorporate https://www.sciencedirect.com/science/article/pii/S2405471220302404
-        
-Created by Pieter Spealman (ps163@nyu.edu)
+    ___ one line command        
+    ___ clean up load_psite_object
+    ___ add multiple p_site determinations
+    ___ add RNA input
         
 ###
 Design notes:
@@ -31,9 +43,9 @@ Design notes:
 
 '''
 'xx' = unevaluated
-'Tt' = True positive
-'Tf' = False positive, I think it's a uORF, they think it is not
-'Ft' = False negative, I think it is not a uORF, think it is 
+'TT' = True positive
+'Tf' = False positive
+'Ft' = False negative
 'Ff' = True negative
 
 if features_dict[uid]['fdr'] <= cut_off:
@@ -55,19 +67,26 @@ else:
 
 """
 
-python uorfish_1.1.py -name DGY1657_rep11 -config
-python uorfish_1.1.py -name DGY1657_rep11 -genome
-python uorfish_1.1.py -name DGY1657_rep11 -read -sam C:/Gresham/2023_09_11_Project_Carolino/analyses/sam/RPF_DGY1657_R1.sorted.sam
-python uorfish_1.1.py -name DGY1657_rep11 -features -known
-python uorfish_1.1.py -name DGY1657_rep11 -train
-python uorfish_1.1.py -name DGY1657_rep11 -predict
+python uorfish.py -name sanity_check -config
+python uorfish.py -name sanity_check -genome
+python uorfish.py -name sanity_check -read -sam C:/Gresham/2023_09_11_Project_Carolino/analyses/sam/RPF_DGY1657_R1.sorted.sam
+python uorfish.py -name sanity_check -features -known
+python uorfish.py -name sanity_check -train
+python uorfish.py -name sanity_check -predict
 
-python uorfish.py -name DGY1657_rep2 -config
-python uorfish.py -name DGY1657_rep2 -genome
-python uorfish.py -name DGY1657_rep2 -read -sam C:/Gresham/2023_09_11_Project_Carolino/analyses/sam/RPF_DGY1657_R2.sorted.sam
-python uorfish.py -name DGY1657_rep2 -features -known
-python uorfish.py -name DGY1657_rep2 -train
-python uorfish.py -name DGY1657_rep2 -predict
+python uorfish.py -name sanity_check_2 -config
+python uorfish.py -name sanity_check_2 -genome
+python uorfish.py -name sanity_check_2 -read -sam C:/Gresham/2023_09_11_Project_Carolino/analyses/sam/RPF_DGY1657_R1.sorted.sam
+python uorfish.py -name sanity_check_2 -features -known
+python uorfish.py -name sanity_check_2 -train
+python uorfish.py -name sanity_check_2 -predict
+
+python uorfish.py -name sanity_check_3 -config
+python uorfish.py -name sanity_check_3 -genome
+python uorfish.py -name sanity_check_3 -read -sam C:/Gresham/2023_09_11_Project_Carolino/analyses/sam/RPF_DGY1657_R1.sorted.sam
+python uorfish.py -name sanity_check_3 -features -known
+python uorfish.py -name sanity_check_3 -train
+python uorfish.py -name sanity_check_3 -predict
 
 python uorfish.py -name DGY1657_rep1 -config
 python uorfish.py -name DGY1657_rep1 -genome
@@ -85,38 +104,47 @@ python uorfish.py -name DGY1657_rep2 -predict
 
 python uorfish.py -name Ned_rep1 -config
 python uorfish.py -name Ned_rep1 -genome
-python uorfish.py -name Ned_rep1 -read -sam C:/Gresham/Nedialkova/sam/WT_RPF_YPD_rep1.sorted.sam
+python uorfish.py -name Ned_rep1 -read -sam C:/Gresham/Presentations/2024_CSHL_Translation/Nedialkova/WT_RPF_rapamycin_rep1.sorted.sam
 python uorfish.py -name Ned_rep1 -features -known
 python uorfish.py -name Ned_rep1 -train
 python uorfish.py -name Ned_rep1 -predict
 
 python uorfish.py -name Ned_rep2 -config
 python uorfish.py -name Ned_rep2 -genome
-python uorfish.py -name Ned_rep2 -read -sam C:/Gresham/Nedialkova/sam/WT_RPF_YPD_rep2.sorted.sam
+python uorfish.py -name Ned_rep2 -read -sam C:/Gresham/Presentations/2024_CSHL_Translation/Nedialkova/WT_RPF_rapamycin_rep2.sorted.sam
 python uorfish.py -name Ned_rep2 -features -known
 python uorfish.py -name Ned_rep2 -train
 python uorfish.py -name Ned_rep2 -predict
 
 python uorfish.py -name Ned_rep3 -config
 python uorfish.py -name Ned_rep3 -genome
-python uorfish.py -name Ned_rep3 -read -sam C:/Gresham/Nedialkova/sam/WT_RPF_YPD_rep3.sorted.sam
+python uorfish.py -name Ned_rep3 -read -sam C:/Gresham/Presentations/2024_CSHL_Translation/Nedialkova/WT_RPF_rapamycin_rep3.sorted.sam
 python uorfish.py -name Ned_rep3 -features -known
 python uorfish.py -name Ned_rep3 -train
 python uorfish.py -name Ned_rep3 -predict
 
-python uorfish.py -name Ned_rap_rep1 -config
-python uorfish.py -name Ned_rap_rep1 -genome
-python uorfish.py -name Ned_rap_rep1 -read -sam C:/Gresham/Nedialkova/sam/WT_RPF_rapamycin_rep1.sorted.sam
-python uorfish.py -name Ned_rap_rep1 -features -known
-python uorfish.py -name Ned_rap_rep1 -train
-python uorfish.py -name Ned_rap_rep1 -predict
+python uorfish.py -name NP_rep1 -config
+python uorfish.py -name NP_rep1 -genome
+python uorfish.py -name NP_rep1 -read -sam C:/Gresham/Presentations/2024_CSHL_Translation/Nedialkova/WT_RPF_YPD_rep1.sam
+python uorfish.py -name NP_rep1 -features -known
+python uorfish.py -name NP_rep1 -train
+python uorfish.py -name NP_rep1 -predict
 
-python uorfish.py -name Ned_rap_rep2 -config
-python uorfish.py -name Ned_rap_rep2 -genome
-python uorfish.py -name Ned_rap_rep2 -read -sam C:/Gresham/Nedialkova/sam/WT_RPF_rapamycin_rep2.sorted.sam
-python uorfish.py -name Ned_rap_rep2 -features -known
-python uorfish.py -name Ned_rap_rep2 -train
-python uorfish.py -name Ned_rap_rep2 -predict
+python uorfish.py -name NP_rep2 -config
+python uorfish.py -name NP_rep2 -genome
+python uorfish.py -name NP_rep2 -read -sam C:/Gresham/Presentations/2024_CSHL_Translation/Nedialkova/WT_RPF_YPD_rep2.sam
+python uorfish.py -name NP_rep2 -features -known
+python uorfish.py -name NP_rep2 -train
+python uorfish.py -name NP_rep2 -predict
+
+python uorfish.py -name NP_rep3 -config
+python uorfish.py -name NP_rep3 -genome
+python uorfish.py -name NP_rep3 -read -sam C:/Gresham/Presentations/2024_CSHL_Translation/Nedialkova/WT_RPF_YPD_rep3.sam
+python uorfish.py -name NP_rep3 -features -known
+python uorfish.py -name NP_rep3 -train
+python uorfish.py -name NP_rep3 -predict
+
+
 
 @author: Pieter Spealman, pspealman@nyu.edu
 """
@@ -145,7 +173,7 @@ import tqdm
 from sklearn.model_selection import StratifiedKFold, train_test_split
 from sklearn.preprocessing import LabelEncoder
 
-
+psite_bedgraph_name_list = []
 
 #io
 parser = argparse.ArgumentParser()
@@ -159,7 +187,6 @@ parser.add_argument('-i',"--input")
 
 parser.add_argument('-genome',"--build_genome_object", default = False, action = "store_true")
 parser.add_argument('-tl', '--transcript_leader_filename')
-parser.add_argument('-gff', '--reference_gff_filename')
 parser.add_argument('-fa', '--fasta_reference_file')
 parser.add_argument('-dubious', '--dubious_orfs_filename')
 parser.add_argument('-go',"--genome_object")
@@ -169,16 +196,18 @@ parser.add_argument('-load_g',"--load_genome_object", default = False, action = 
 
 parser.add_argument('-read',"--parse_read_object", default = False, action = "store_true")
 parser.add_argument('-sam',"--sam_filename")
-parser.add_argument('-bedgraph',"--make_bedgraph", default = False, action = "store_true")
+parser.add_argument('-bedgraph',"--make_bedgraph", default = True, action = "store_true")
 parser.add_argument('-ro',"--read_object")
 
 parser.add_argument('-known',"--parse_uorf_object", default = False, action = "store_true")
 parser.add_argument('-uvt',"--uorf_validation_type")
 parser.add_argument('-val_uorfs',"--validated_uorfs_filename")
+parser.add_argument('-highqc',"--highqc_candidate_cutoff", default = 0.10)
+parser.add_argument('-psite_mode',"--psite_mode", default = "singular")
+
 
 parser.add_argument('-features',"--build_features_object", default = False, action = "store_true")
 parser.add_argument('-fo',"--features_object_filename")
-parser.add_argument('-modify',"--modify_feature_object", default = False, action = "store_true")
 parser.add_argument('-to',"--train_object_features")
 parser.add_argument('-po',"--predict_object_features")
 
@@ -192,31 +221,26 @@ args = parser.parse_args()
 '''
 # General functions
 '''
-#start_codons = set(['ATG', 'TTG', 'GTG', 'CTG', 'ATA', 'ATT', 'ACG', 'ATC'])
-start_codons = set(['ATG', 'TTG', 'GTG', 'CTG', 'ATA', 'ATT', 'ACG', 'ATC', 'AAG', 'AGG']) # Brar_2020
+start_codons = set(['ATG', 'TTG', 'GTG', 'CTG', 'ATA', 'ATT', 'ACG', 'ATC'])
 
 stop_codons = set(['TAA', 'TAG', 'TGA'])
 
 sign_to_text = {'+':'plus','-':'minus'}
-
-#from https://www.nature.com/articles/s41598-019-42348-x
-asite_frac_lookup = {24:set([15]),
-                      25:set([15]),
-                      26:set([15,12]),
-                      27:set([15]),
-                      28:set([15]),
-                      29:set([15]),
-                      30:set([15]),
-                      31:set([15]),
-                      32:set([18,15]),
-                      33:set([18]),
-                      34:set([18])}
 
 def reverse_complement(sequence):
     sequence = sequence.upper()
     complement = sequence.translate(str.maketrans('ATCG', 'TAGC'))
     return(complement[::-1])
 
+def write_resource_object(resource_object, resources_dict):
+    
+    resource_file = open(resource_object, 'w')
+    
+    for metadata, value in resources_dict.items():
+        outline = ('{metadata}\t{value}\n').format(metadata = metadata, value = value)
+        resource_file.write(outline)
+    resource_file.close()
+    
 def parse_resource_object():
     
     run_name = args.run_name
@@ -227,76 +251,73 @@ def parse_resource_object():
     if args.configure_run:
         Path(run_name).mkdir(parents=True, exist_ok=True)
     
-    resource_object = ('{}/_resources.tab').format(run_name)
-    file_path = Path(resource_object)
+    resource_filename = ('{}/_resources.tab').format(run_name)
+    file_path = Path(resource_filename)
     
     if file_path.is_file():
-        resource_dict = {}
+        resources_dict = {}
 
-        resource_file = open(resource_object)
+        resource_file = open(resource_filename)
         for line in resource_file:
             line = line.strip()
             #print(line)
             metadata, value = line.split('\t')
-            resource_dict[metadata] = value
+            resources_dict[metadata] = value
         resource_file.close()
+        
+        resources_dict['resource_filename'] = resource_filename
                        
         if args.transcript_leader_filename:
-            resource_dict['transcript_leader_filename'] = args.transcript_leader_filename
-            
-        if args.reference_gff_filename:
-            resource_dict['reference_gff_filename'] = args.reference_gff_filename
+            resources_dict['transcript_leader_filename'] = args.transcript_leader_filename
                     
         if args.fasta_reference_file:
-            resource_dict['fasta_reference_file'] = args.fasta_reference_file
+            resources_dict['fasta_reference_file'] = args.fasta_reference_file
         
         if args.dubious_orfs_filename:
-            resource_dict['dubious_orfs_filename'] = args.dubious_orfs_filename
+            resources_dict['dubious_orfs_filename'] = args.dubious_orfs_filename
             
         if args.genome_object:
-            resource_dict['genome_object'] = args.genome_object
+            resources_dict['genome_object'] = args.genome_object
         
         if args.genome_gff_object:
-            resource_dict['genome_gff_object'] = args.genome_gff_object
+            resources_dict['genome_gff_object'] = args.genome_gff_object
             
         if args.uorf_validation_type:
-            resource_dict['uorf_validation_type'] = args.uorf_validation_type
+            resources_dict['uorf_validation_type'] = args.uorf_validation_type
             
         if args.validated_uorfs_filename:
-            resource_dict['validated_uorfs_filename'] = args.validated_uorfs_filename
+            resources_dict['validated_uorfs_filename'] = args.validated_uorfs_filename
         
         if args.features_object_filename:
-            resource_dict['features_object_filename'] = args.features_object_filename
+            resources_dict['features_object_filename'] = args.features_object_filename
             
         if args.sam_filename:
-            resource_dict['sam_filename'] = args.sam_filename
+            resources_dict['sam_filename'] = args.sam_filename
             
         if args.read_object:
-            resource_dict['read_object'] = args.read_object
+            resources_dict['read_object'] = args.read_object
             
         if args.make_bedgraph:
-            resource_dict['make_bedgraph'] = args.make_bedgraph
+            resources_dict['make_bedgraph'] = args.make_bedgraph
             
         if args.parse_uorf_object:
-            resource_dict['parse_uorf_object'] = args.parse_uorf_object
+            resources_dict['parse_uorf_object'] = args.parse_uorf_object
 
         if args.train_object_features:
-            resource_dict['train_object_features'] = args.train_object_features
+            resources_dict['train_object_features'] = args.train_object_features
             
         if args.predict_object_features:
-            resource_dict['predict_object_features'] = args.predict_object_features
+            resources_dict['predict_object_features'] = args.predict_object_features
             
         if args.dnn_model_filename:
-            resource_dict['dnn_model_filename'] = args.dnn_model_filename
+            resources_dict['dnn_model_filename'] = args.dnn_model_filename
             
         if args.output:
-            resource_dict['output'] = args.output
+            resources_dict['output'] = args.output
             
         if args.prediction_cutoff:
-            resource_dict['prediction_cutoff'] = args.prediction_cutoff
-                
-        #print('post', resource_dict)
-            
+            resources_dict['prediction_cutoff'] = args.prediction_cutoff
+                            
     else:
         if (not args.configure_run):
             outline = ('Missing configuration file for run name: {}\n exiting now ...')
@@ -304,129 +325,122 @@ def parse_resource_object():
             exit()
             
         if args.configure_run:
-            resource_dict = {}
+            resources_dict = {}
             
             bedgraph_filenames = ('{run_name}/{run_name}_bedgraph_filenames.p').format(run_name = run_name)
-            resource_dict['bedgraph_filenames'] = bedgraph_filenames
+            resources_dict['bedgraph_filenames'] = bedgraph_filenames
             
-            #todo double check if this is redundant to reference gff
             if args.transcript_leader_filename:
-                resource_dict['transcript_leader_filename'] = args.transcript_leader_filename
+                resources_dict['transcript_leader_filename'] = args.transcript_leader_filename
             else:
-                resource_dict['transcript_leader_filename'] = 'demo/saccharomyces_cerevisiae_transcript_leader.gff'
-            
-            #todo update path to demo
-            if args.reference_gff_filename:
-                resource_dict['reference_gff_filename'] = args.reference_gff_filename
-            else:
-                resource_dict['reference_gff_filename'] = 'C:/Gresham/genomes/Ensembl/Saccharomyces_cerevisiae.R64-1-1.50.gff3'
+                resources_dict['transcript_leader_filename'] = 'demo/saccharomyces_cerevisiae_transcript_leader.gff'
                         
             if args.fasta_reference_file:
-                resource_dict['fasta_reference_file'] = args.fasta_reference_file
+                resources_dict['fasta_reference_file'] = args.fasta_reference_file
             else:
-                resource_dict['fasta_reference_file'] = 'demo/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa'
+                resources_dict['fasta_reference_file'] = 'demo/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa'
                 
             if args.dubious_orfs_filename:
-                resource_dict['dubious_orfs_filename'] = args.dubious_orfs_filename
+                resources_dict['dubious_orfs_filename'] = args.dubious_orfs_filename
             else:
-                resource_dict['dubious_orfs_filename'] = 'demo/dubious_orfs.tsv'
+                resources_dict['dubious_orfs_filename'] = 'demo/dubious_orfs.tsv'
                                         
             if args.uorf_validation_type:
-                resource_dict['uorf_validation_type'] = args.uorf_validation_type
+                resources_dict['uorf_validation_type'] = args.uorf_validation_type
             else:
-                resource_dict['uorf_validation_type'] = 'molecular'
+                resources_dict['uorf_validation_type'] = 'molecular'
                     
             if args.validated_uorfs_filename:
-                resource_dict['validated_uorfs_filename'] = args.validated_uorfs_filename
+                resources_dict['validated_uorfs_filename'] = args.validated_uorfs_filename
             else:
-                resource_dict['validated_uorfs_filename'] = 'demo/validated_uorfs_v1.2_test.gff'
+                #resources_dict['validated_uorfs_filename'] = 'demo/validated_uorfs.csv'
+                resources_dict['validated_uorfs_filename'] = 'demo/validated_uorfs_v1.2_test.gff'
                 
             if args.genome_object:
-                resource_dict['genome_object'] = args.genome_object
+                resources_dict['genome_object'] = args.genome_object
             else:
                 outline = ('{run_name}/_genome_object.p').format(run_name = run_name)
-                resource_dict['genome_object'] = outline
+                resources_dict['genome_object'] = outline
                 
             if args.genome_gff_object:
-                resource_dict['genome_gff_object'] = args.genome_gff_object
+                resources_dict['genome_gff_object'] = args.genome_gff_object
             else:
-                outline = ('{run_name}/_genome_gff_object.gff').format(run_name = run_name)
-                resource_dict['genome_gff_object'] = outline
+                outline = ('{run_name}/_genome_gff_object.p').format(run_name = run_name)
+                resources_dict['genome_gff_object'] = outline
                 
             if args.features_object_filename:
-                resource_dict['features_object_filename'] = args.features_object_filename
+                resources_dict['features_object_filename'] = args.features_object_filename
             else:
                 outline = ('{run_name}/_features_object.csv').format(run_name = run_name)
-                resource_dict['features_object_filename'] = outline
+                resources_dict['features_object_filename'] = outline
                     
             if args.sam_filename:
-                resource_dict['sam_filename'] = args.sam_filename
+                resources_dict['sam_filename'] = args.sam_filename
             else:
                 outline = ('USER_SPECIFIED')
-                resource_dict['sam_filename'] = outline
+                resources_dict['sam_filename'] = outline
                     
             if args.read_object:
-                resource_dict['read_object'] = args.read_object
+                resources_dict['read_object'] = args.read_object
             else:
                 outline = ('{run_name}/_read_object.p').format(run_name = run_name)
-                resource_dict['read_object'] = outline
+                resources_dict['read_object'] = outline
                 
             if args.make_bedgraph:
-                resource_dict['make_bedgraph'] = args.make_bedgraph
+                resources_dict['make_bedgraph'] = args.make_bedgraph
             else:
-                resource_dict['make_bedgraph'] = False
+                resources_dict['make_bedgraph'] = False
                 
             if args.parse_uorf_object:
-                resource_dict['parse_uorf_object'] = args.parse_uorf_object
+                resources_dict['parse_uorf_object'] = args.parse_uorf_object
             else:
-                resource_dict['parse_uorf_object'] = True
+                resources_dict['parse_uorf_object'] = True
                 
             if args.train_object_features:
-                resource_dict['train_object_features'] = args.train_object_features
+                resources_dict['train_object_features'] = args.train_object_features
             else:
                 outline = ('{run_name}/_train_object_features.csv').format(run_name = run_name)
-                resource_dict['train_object_features'] = outline
+                resources_dict['train_object_features'] = outline
                 
             if args.predict_object_features:
-                resource_dict['predict_object_features'] = args.predict_object_features
+                resources_dict['predict_object_features'] = args.predict_object_features
             else:
                 outline = ('{run_name}/_predict_object_features.csv').format(run_name = run_name)
-                resource_dict['predict_object_features'] = outline
+                resources_dict['predict_object_features'] = outline
                 
             if args.prediction_cutoff:
-                resource_dict['prediction_cutoff'] = args.prediction_cutoff
+                resources_dict['prediction_cutoff'] = args.prediction_cutoff
             else:
-                resource_dict['prediction_cutoff'] = 0.5
+                resources_dict['prediction_cutoff'] = 0.5
                 
             if args.dnn_model_filename:
-                resource_dict['dnn_model_filename'] = args.dnn_model_filename
+                resources_dict['dnn_model_filename'] = args.dnn_model_filename
             else:
                 outline = ('{run_name}/_dnn_model.p').format(run_name = run_name)
-                resource_dict['dnn_model_filename'] = outline                
+                resources_dict['dnn_model_filename'] = outline                
                 
             if args.output:
-                resource_dict['output'] = args.output
+                resources_dict['output'] = args.output
             else:
                 outline = ('{run_name}/{run_name}').format(run_name = run_name)
-                resource_dict['output'] = outline
-            
-    resource_file = open(resource_object, 'w')
-    for metadata, value in resource_dict.items():
-        outline = ('{metadata}\t{value}\n').format(metadata = metadata, value = value)
-        resource_file.write(outline)
-    resource_file.close()
+                resources_dict['output'] = outline
+                
+            if args.psite_mode:
+                resources_dict['psite_mode'] = args.psite_mode
+                
+            if args.highqc_candidate_cutoff:
+                resources_dict['highqc_candidate_cutoff'] = args.highqc_candidate_cutoff
     
-    return(resource_dict)
-
-            
-
+    write_resource_object(resource_filename, resources_dict)
+    
+    return(resources_dict)
 
 '''
 Read in potential TL coordinates to get nucleotide sequences
 '''
 
 def return_dubious_orfs():
-    dubious_orfs_filename = resources_object['dubious_orfs_filename']
+    dubious_orfs_filename = resources_dict['dubious_orfs_filename']
     dubious_orfs = set()
     
     infile = open(dubious_orfs_filename)
@@ -440,12 +454,12 @@ def return_dubious_orfs():
     return(dubious_orfs)
             
 def make_TL_fasta():
-    transcript_leader_filename = resources_object['transcript_leader_filename']
-    fasta_reference_file = resources_object['fasta_reference_file']
+    transcript_leader_filename = resources_dict['transcript_leader_filename']
+    fasta_reference_file = resources_dict['fasta_reference_file']
     
     coord_dict = {}
     
-    #dubious_orf = return_dubious_orfs()
+    dubious_orf = return_dubious_orfs()
         
     tl_file = open(transcript_leader_filename)
     
@@ -458,13 +472,13 @@ def make_TL_fasta():
             if 'chr' in chromo:
                 chromo = chromo.split('chr')[1]
             
-            start = int(line.split('\t')[3])-1
+            start = int(line.split('\t')[3])
             stop =int(line.split('\t')[4])
             sign = line.split('\t')[6]
             
             gene = line.split('\t')[8].split('=')[1].split('_')[0]
             
-            if gene[0] == 'Y':# and gene not in dubious_orf:
+            if gene[0] == 'Y' and gene not in dubious_orf:
                 if gene not in coord_dict:
                     coord_dict[gene] = {}
                     
@@ -514,17 +528,16 @@ def get_igv_coords(coord_sign, coord_start, coord_stop, codon_start, codon_stop,
             
     return(nt)
 
-def find_puorf_regions(gene, dubious_orfs, puorf_dict, fa_dict, coord_dict):
+def find_puorf_regions(gene, puorf_dict, fa_dict, coord_dict):
     
     print('Finding putative uORFs in gene: ', gene)
     seq, coord_chromo, coord_start, coord_stop, coord_sign = get_sequences(gene, fa_dict, coord_dict)
+    
+    if 'CHR' in coord_chromo.upper():
+        
+        coord_chromo = coord_chromo.upper().replace('CHR','')
 
     set_of_start_codons = set()
-    
-    status = 'candidate'
-
-    if gene in dubious_orfs:
-        status = 'dubious_orf'
                  
     for frame in set([0,1,2]):
         #print('frame', frame)   
@@ -555,6 +568,7 @@ def find_puorf_regions(gene, dubious_orfs, puorf_dict, fa_dict, coord_dict):
                                 set_of_start_codons.add(codon_start)
                                 
                                 in_puorf = True
+                                
                                 start_codon = codon
                                 puorf_start = get_igv_coords(coord_sign, coord_start, coord_stop, codon_start, codon_stop, 'start')
                     else:
@@ -571,11 +585,35 @@ def find_puorf_regions(gene, dubious_orfs, puorf_dict, fa_dict, coord_dict):
                                 'puorf_start': puorf_start,
                                 'puorf_stop': puorf_stop,
                                 'start_codon': start_codon,
-                                'stop_codon': stop_codon,
-                                'status': status
+                                'stop_codon': stop_codon
                                 }
                             
                             hit_count +=1
+                            
+            if in_puorf: #handles oORFs
+                stop_codon = 'oORF'
+                #puorf_stop = get_igv_coords(coord_sign, coord_start, coord_stop, codon_start, codon_stop, 'stop')           
+                
+                if gene not in puorf_dict:
+                    puorf_dict[gene]={}
+                
+                if coord_sign == '+':
+                    puorf_dict[gene][len(puorf_dict[gene])] = {
+                        'puorf_start': puorf_start,
+                        'puorf_stop': coord_stop - 1,
+                        'start_codon': start_codon,
+                        'stop_codon': stop_codon
+                        }
+                else:
+                    puorf_dict[gene][len(puorf_dict[gene])] = {
+                        'puorf_start': puorf_start,
+                        'puorf_stop': coord_start,
+                        'start_codon': start_codon,
+                        'stop_codon': stop_codon
+                        }
+                    
+                hit_count +=1
+                
 
     #here we're collecting the information for the whole TL
     if gene in puorf_dict:
@@ -584,152 +622,147 @@ def find_puorf_regions(gene, dubious_orfs, puorf_dict, fa_dict, coord_dict):
                 'chromo':coord_chromo,
                 'coord_start':coord_start,
                 'coord_stop':coord_stop,
-                'coord_sign':coord_sign,
-                'status': status
+                'coord_sign':coord_sign
                 }
         
     return(puorf_dict)
 
 def make_puorf_scramble(fa_dict, coord_dict, relative_puorf_dict, start_codon_counter):
-    '''    
-    relative_puorf_dict = {}
-    relative_puorf_dict[runmode][gene][puorf] = {
-                'left' = rel_start,
-                'right' = rel_stop,
-                'mask_stop' = mask_stop,
-                'coord_start' = genome_coord_start,
-                'coord_stop' = genome_coord_stop,
-                'psite_vals' = RPF_psite_val,
-                'rnt' = relative_nucleotide,
-                'psite_dict' = {rnt:val}
-                
-                }
-    '''
-    for runmode in relative_puorf_dict:
-        puorf_scramble_dict = {}
-        
-        for gene in coord_dict:
-            if gene in relative_puorf_dict[runmode]:
-                psite_dict = relative_puorf_dict[runmode][gene][-1]['psite_dict']
-                mask_stop = relative_puorf_dict[runmode][gene][-1]['mask_stop']
+    puorf_scramble_dict = {}
     
-                unscrambled_seq, coord_chromo, coord_start, coord_stop, coord_sign = get_sequences(gene, fa_dict, coord_dict)
+    for gene in coord_dict:
+        if gene in relative_puorf_dict:
+            psite_dict = relative_puorf_dict[gene][-1]['psite_dict']
+            mask_stop = relative_puorf_dict[gene][-1]['mask_stop']
+
+            unscrambled_seq, coord_chromo, coord_start, coord_stop, coord_sign = get_sequences(gene, fa_dict, coord_dict)
+            
+            for frame in set([0,1,2]):
+                unwound_seq = []
                 
-                for frame in set([0,1,2]):
-                    unwound_seq = []
-                    
-                    for i in range(len(unscrambled_seq)):
-                        codon_start = frame+0+i*3
-                        codon_stop = frame+3+i*3
-                         
-                        codon = unscrambled_seq[codon_start:codon_stop]
-    
-                        if len(codon) == 3:
-                            unwound_seq.append(codon)
-                            
-                    for sim in range(3):
-                        seq_list = random.sample(unwound_seq, len(unwound_seq))
+                for i in range(len(unscrambled_seq)):
+                    codon_start = frame+0+i*3
+                    codon_stop = frame+3+i*3
+                     
+                    codon = unscrambled_seq[codon_start:codon_stop]
+
+                    if len(codon) == 3:
+                        unwound_seq.append(codon)
                         
-                        seq = ''
-                        for each in seq_list:
-                            seq += each
+                for sim in range(3):
+                    seq_list = random.sample(unwound_seq, len(unwound_seq))
+                    
+                    seq = ''
+                    for each in seq_list:
+                        seq += each
+                        
+                    set_of_start_codons = set()
+                                 
+                    for frame in set([0,1,2]):
+                        #print('frame', frame)   
+                        previous_hit_count = -1
+                        hit_count = 0
+                        
+                        while hit_count != previous_hit_count:
+                            #print('hitcount', hit_count, previous_hit_count)
                             
-                        set_of_start_codons = set()
-                                     
-                        for frame in set([0,1,2]):
-                            #print('frame', frame)   
-                            previous_hit_count = -1
-                            hit_count = 0
+                            previous_hit_count = hit_count
+                            in_puorf = False
                             
-                            while hit_count != previous_hit_count:
-                                #print('hitcount', hit_count, previous_hit_count)
+                            # Instead of juggling cuts and frames I just ask if a codon is produced and evaluate on that
+                            for i in range(len(seq)//3):
+                                codon_start = frame+0+i*3
+                                codon_stop = frame+3+i*3
+
+                                codon = seq[codon_start:codon_stop]
+                                psite = psite_dict[codon_start]
                                 
-                                previous_hit_count = hit_count
-                                in_puorf = False
-                                
-                                # Instead of juggling cuts and frames I just ask if a codon is produced and evaluate on that
-                                for i in range(len(seq)//3):
-                                    codon_start = frame+0+i*3
-                                    codon_stop = frame+3+i*3
-    
-                                    codon = seq[codon_start:codon_stop]
-                                    psite = psite_dict[codon_start]
+                                if codon and (psite > 1):
                                     
-                                    if codon and (psite > 1):
-                                        
-                                        if not in_puorf:
-                                            if codon in start_codons:
-                                                if codon_start not in set_of_start_codons:
-                                                    set_of_start_codons.add(codon_start)
-                                                    
-                                                    in_puorf = True
-                                                    
-                                                    start_codon = codon
-                                                    puorf_start = get_igv_coords(coord_sign, coord_start, coord_stop, codon_start, codon_stop, 'start')
-                                                    # start_codon_counter[codon]+=1
-                                                    
-                                        else:
-                                            if codon in stop_codons:
-                                                in_puorf = False
-                            
-                                                stop_codon = codon
-                                                puorf_stop = get_igv_coords(coord_sign, coord_start, coord_stop, codon_start, codon_stop, 'stop')           
+                                    if not in_puorf:
+                                        if codon in start_codons:
+                                            if codon_start not in set_of_start_codons:
+                                                set_of_start_codons.add(codon_start)
                                                 
-                                                if gene not in puorf_scramble_dict:
-                                                    puorf_scramble_dict[gene]={}
-                                                    
-                                                puorf_scramble_dict[gene][len(puorf_scramble_dict[gene])] = {
-                                                    'puorf_start': puorf_start,
-                                                    'puorf_stop': puorf_stop,
-                                                    'start_codon': start_codon,
-                                                    'stop_codon': stop_codon,
-                                                    'left': min(puorf_start, puorf_stop),
-                                                    'right': max(puorf_start, puorf_stop),
-                                                    'status': 'scramble'
-                                                    }
+                                                in_puorf = True
                                                 
-                                                hit_count +=1
-                                                                            
-                    #here we're collecting the information for the whole TL
-                    if gene in puorf_scramble_dict:
-                        if len(puorf_scramble_dict[gene]) > 0:
-                            puorf_scramble_dict[gene][-1] = {
-                                'chromo':coord_chromo,
-                                'coord_start':coord_start,
-                                'coord_stop':coord_stop,
-                                'coord_sign':coord_sign,
-                                'mask_stop':mask_stop,
-                                'psite_dict': psite_dict,
-                                'status': 'scramble'                            
-                                }
+                                                start_codon = codon
+                                                puorf_start = get_igv_coords(coord_sign, coord_start, coord_stop, codon_start, codon_stop, 'start')
+                                                # start_codon_counter[codon]+=1
+                                                
+                                    else:
+                                        if codon in stop_codons:
+                                            in_puorf = False
+                        
+                                            stop_codon = codon
+                                            puorf_stop = get_igv_coords(coord_sign, coord_start, coord_stop, codon_start, codon_stop, 'stop')           
+                                            
+                                            if gene not in puorf_scramble_dict:
+                                                puorf_scramble_dict[gene]={}
+                                                
+                                            puorf_scramble_dict[gene][len(puorf_scramble_dict[gene])] = {
+                                                'puorf_start': puorf_start,
+                                                'puorf_stop': puorf_stop,
+                                                'start_codon': start_codon,
+                                                'stop_codon': stop_codon,
+                                                'left': min(puorf_start, puorf_stop),
+                                                'right': max(puorf_start, puorf_stop),
+                                                }
+                                            
+                                            hit_count +=1
+                                            
+                            if in_puorf: #handles oORFs
+                                stop_codon = 'oORF'
+                                #puorf_stop = get_igv_coords(coord_sign, coord_start, coord_stop, codon_start, codon_stop, 'stop')           
+                                
+                                if gene not in puorf_scramble_dict:
+                                    puorf_scramble_dict[gene]={}
+                                
+                                if coord_sign == '+':
+                                    puorf_scramble_dict[gene][len(puorf_scramble_dict[gene])] = {
+                                        'puorf_start': puorf_start,
+                                        'puorf_stop': coord_stop - 1,
+                                        'start_codon': start_codon,
+                                        'stop_codon': stop_codon,
+                                        'left': puorf_start,
+                                        'right': coord_stop -1
+                                        }
+                                else:
+                                    puorf_scramble_dict[gene][len(puorf_scramble_dict[gene])] = {
+                                        'puorf_start': puorf_start,
+                                        'puorf_stop': coord_start,
+                                        'start_codon': start_codon,
+                                        'stop_codon': stop_codon,
+                                        'left': coord_start,
+                                        'right': puorf_start
+                                        }
+                                    
+                                hit_count +=1
+                        
+                #here we're collecting the information for the whole TL
+                if gene in puorf_scramble_dict:
+                    if len(puorf_scramble_dict[gene]) > 0:
+                        puorf_scramble_dict[gene][-1] = {
+                            'chromo':coord_chromo,
+                            'coord_start':coord_start,
+                            'coord_stop':coord_stop,
+                            'coord_sign':coord_sign,
+                            'mask_stop':mask_stop,
+                            'psite_dict': psite_dict                            
+                            }
                     
-        relative_puorf_scramble_dict = strand_agnostic(puorf_scramble_dict, psite_object)
-        puorf_scramble_features = {}
-        
-        #relative_puorf_dict, puorf_features, validated_uorfs = build_features
-        relative_puorf_scramble_dict, puorf_scramble_features, _v = build_features(puorf_scramble_features, relative_puorf_scramble_dict, set())
-                
-    #for runmode in relative_puorf_dict:
-        for lump_v_peak in set(['lump', 'peak']):
-            lump_mode = ('{lump_v_peak}_{runmode}').format(
-                lump_v_peak = lump_v_peak, 
-                runmode = runmode)
-            print('787', lump_mode)
-        
-            for uid in puorf_scramble_features:
-                if puorf_scramble_features[uid]['pass_filter_one']:
-                    #print(puorf_scramble_features[uid].keys())
+    relative_puorf_scramble_dict = strand_agnostic(puorf_scramble_dict, psite_object)
+    puorf_scramble_features = {}
+    
+    relative_puorf_scramble_dict, puorf_scramble_features = build_features(puorf_scramble_features, relative_puorf_scramble_dict, set())
+            
+    for uid in puorf_scramble_features:
+        if puorf_scramble_features[uid]['pass_filter_one']:
+            is_lump = puorf_scramble_features[uid]['lump']
+            start_codon = puorf_scramble_features[uid]['start_codon']
+            rs = puorf_scramble_features[uid]['resolved_score']
                     
-                    #lump_colname = ('lump_{}').format(runmode)
-                    
-                    #is_lump = puorf_scramble_features[uid][lump_mode]
-                    
-                    start_codon = puorf_scramble_features[uid]['start_codon']
-                    
-                    resolved_score_colname = ('resolved_score_{}').format(runmode)
-                    rs = puorf_scramble_features[uid][resolved_score_colname]
-                            
-                    start_codon_counter[lump_mode][start_codon].append(rs)
+            start_codon_counter[is_lump][start_codon].append(rs)
             
     return(start_codon_counter)
 
@@ -942,7 +975,7 @@ def get_sequences(gene, fa_dict, coord_dict):
     return(coord_seq, coord_chromo, coord_start, coord_stop, coord_sign)
 
 def make_gff(puorf_dict):
-    genome_gff_object = resources_object['genome_gff_object']
+    genome_gff_object = resources_dict['genome_gff_object']
     gff_file = open(genome_gff_object, 'w')
     
     for gene in puorf_dict:
@@ -958,12 +991,8 @@ def make_gff(puorf_dict):
                 'puorf_stop':puorf_stop,
                 'sign':coord_sign,
                 'start_codon':start_codon,
-                'stop_codon':stop_codon,
-                'status':status
+                'stop_codon':stop_codon
                 '''
-                status = puorf_dict[gene][puorf]['status']
-                start_codon = puorf_dict[gene][puorf]['start_codon']
-                stop_codon = puorf_dict[gene][puorf]['stop_codon']
                 
                 if sign == '+':
                     left = puorf_dict[gene][puorf]['puorf_start']
@@ -976,11 +1005,10 @@ def make_gff(puorf_dict):
                     name = ('{}.{}').format(gene,right)
                     
                 #chrI	AWN	mRNA	136914	137510	.	+	.	ID=YAL008W_mRNA;PARENT=YAL008W
-                outline = ('{chromo}\tcue_orf\tuORF\t{left}\t{right}\t.\t{sign}\t.\t'
-                           'ID={name}_uORF;Parent={gene};Status={status};aTIS={start_codon};aStop={stop_codon}\n').format(
-                               chromo = chromo, left = left, right = right, sign = sign, 
-                               name = name, gene = gene, status = status, 
-                               start_codon = start_codon, stop_codon = stop_codon)
+                outline = ('{chromo}\tcue_orf\tuORF\t{left}\t{right}'
+                           '\t.\t{sign}\t.\tID={name}_uORF;Parent={gene}\n').format(
+                               chromo = chromo, left = left, right = right,
+                               sign = sign, name = name, gene = gene)
                 gff_file.write(outline)
             
     gff_file.close()         
@@ -991,7 +1019,8 @@ def demarcate_regions(fa_dict, coord_dict):
     dubious_orfs = return_dubious_orfs()
     
     for gene in coord_dict:
-        puorf_dict = find_puorf_regions(gene, dubious_orfs, puorf_dict, fa_dict, coord_dict)
+        if gene not in dubious_orfs:
+            puorf_dict = find_puorf_regions(gene, puorf_dict, fa_dict, coord_dict)
             
     make_gff(puorf_dict)
         
@@ -1001,6 +1030,9 @@ def test_start_codon_saturation(start_codon_counter):
     #print(start_codon_counter)
     status = False
     
+    cutoff = 1e4
+    print('Testing codon type for null model, cut off is: ', cutoff)
+    
     for mode in start_codon_counter:
         print(mode)
         for codon in start_codon_counter[mode]:
@@ -1008,47 +1040,31 @@ def test_start_codon_saturation(start_codon_counter):
             
             #print(codon, start_codon_counter[mode][codon])
         
-            if len(start_codon_counter[mode][codon]) < 1e4:
+            if len(start_codon_counter[mode][codon]) < cutoff:
                 #print('test_start_codon_saturation', codon, len(start_codon_counter[mode][codon]))
                 status = True
                         
     return(status)
 
 
-def calculate_scramble_pval(fa_dict, coord_dict, relative_puorf_dict):
+def calculate_scramble_pval(fa_dict, coord_dict):
     
     outline = ('Generating random distribution for null model ...')
     print(outline)
     
-    runmode_set = set()
-    for runmode in relative_puorf_dict:
-        runmode_set.add(runmode)
+    start_codon_set = set(['ATT', 'ATC', 'TTG', 'ATA', 
+                           'CTG', 'GTG', 'ACG', 'ATG'])
     
-    '''
-    Note - start_codon_counter contains the resolved score (rs)  for scrambled uorfs. These are 
-    stored in a start codon specific fashion, enabling each start codon to have a distinct 
-    distribution of scores. This means that ATC will not need to score as highly as ATG in order to be evaluated.
-
-    Furthermore, each start codon type is also evaluated separately for each runmode, as the RPF occupancy may be different for each. 
-    
-    '''
     start_codon_counter = {}
-    
-    for runmode in runmode_set:
-        for lump_v_peak in set(['lump', 'peak']):
-            lump_mode = ('{lump_v_peak}_{runmode}').format(
-                lump_v_peak = lump_v_peak, 
-                runmode = runmode)
-            print(lump_mode)
+    for mode in set(['lump', 'peak']):
+        start_codon_counter[mode] = {}
+        
+        for start_codon in start_codon_set:
+            start_codon_counter[mode][start_codon] = []
             
-            start_codon_counter[lump_mode] = {}
-            
-            for start_codon in start_codons:
-                start_codon_counter[lump_mode][start_codon] = []
-                
     while test_start_codon_saturation(start_codon_counter):
         start_codon_counter = make_puorf_scramble(fa_dict, coord_dict, relative_puorf_dict, start_codon_counter)
-            
+                
     return(start_codon_counter)
         
 # def make_bedgraph(psite_dict, runsize, match_sign):
@@ -1181,10 +1197,73 @@ def unpackbits(x,num_bits=12):
             
 #     else:
 #         return(False, '', '')
-  
+    
+# TODO make this a callable option
+# def make_asite_fraction(asite_dict, n_sequence, chromo, start, stop, sign, size):
+#     #from https://www.nature.com/articles/s41598-019-42348-x
+    
+#     asite_frac_lookup = {24:set([15]),
+#                          25:set([15]),
+#                          26:set([15,12]),
+#                          27:set([15]),
+#                          28:set([15]),
+#                          29:set([15]),
+#                          30:set([15]),
+#                          31:set([15]),
+#                          32:set([18,15]),
+#                          33:set([18]),
+#                          34:set([18])}
+    
+#     size = len(n_sequence)
+#     if size in asite_frac_lookup:
+#         fraction_set = asite_frac_lookup[size]
+        
+#         weight = round(1/(len(fraction_set)),2)
+        
+#         for offset in fraction_set:
+#             if sign == "+":
+#                 zero_site_coord = start + offset
+                
+#             if sign == "-":
+#                 zero_site_coord = stop - offset
+                
+#             coord = zero_site_coord
+        
+#             if chromo not in asite_dict:
+#                 asite_dict[chromo] = {}
+                
+#             if coord not in asite_dict[chromo]:
+#                 asite_dict[chromo][coord] = 0
+                
+#             asite_dict[chromo][coord] += weight
+            
+#             return(asite_dict)
 
 # def make_psite_fraction(psite_dict, n_sequence, chromo, start, stop, sign, size):
 
+#     size = len(n_sequence)
+#     offset_bins = abs(size - 28)
+            
+#     if sign == "+":
+#         zero_site_coord = start + 12
+        
+#     if sign == "-":
+#         zero_site_coord = stop - 13
+        
+#     weight = round(1/(1+(2*offset_bins)),5)
+    
+#     add_to_psite_dict(psite_dict, chromo, zero_site_coord, weight)
+        
+#     for each in range(offset_bins):
+#         offset = each + 1
+#         mod_site_coord = zero_site_coord + offset 
+        
+#         add_to_psite_dict(psite_dict, chromo, mod_site_coord, weight)
+        
+#         mod_site_coord = zero_site_coord - offset 
+        
+#         add_to_psite_dict(psite_dict, chromo, mod_site_coord, weight)
+        
 #     return(psite_dict)
 
 # def parse_rpf_sam_file(samfile_name, minsize = 20, maxsize = np.inf, match_sign = '+', reverse=False):
@@ -1245,7 +1324,7 @@ def unpackbits(x,num_bits=12):
 parse_rpf
 '''
 # def store_bedgraph(size, match_sign, bedgraph_dict, psite_dict):
-#     generate_bedgraph = resources_object['make_bedgraph']
+#     generate_bedgraph = resources_dict['make_bedgraph']
     
 #     if generate_bedgraph:
 #         outfile_name = make_bedgraph(psite_dict, size, match_sign)
@@ -1398,19 +1477,22 @@ def populate_fragment_object(sign, chromo, nt, size, fragment_data_object):
     
     return(fragment_data_object)
             
+def remove_homopolymers(seq, homopolymer_density_cutoff):
+    if len(seq) <= 0:
+        return(False)
+        
+    else:
+        temp_seq = seq.upper()
+        for nuc in ['A', 'C', 'T', 'G', 'N']:
+            homopolymer_density = temp_seq.count(nuc)/max(len(temp_seq),1)
+            
+            if homopolymer_density > homopolymer_density_cutoff:
+                return(False)
+                
+        return(True)
+
 #identify RPFs that overlap
-def select_rpf_overlap(sam_filename, tis_dict,  minsize = 20, maxsize = np.inf):
-    
-    '''
-    p5_site_dict is records RPF occupancy in a 'meta uorf' coordinate system.
-    It is intended to be used for the identification of size weights for reading
-    frame optimization
-    
-    p5_site_dict = {sizes}
-    p5_site_dict[sizes] = {tis_distance}
-    
-    '''
-    
+def select_rpf_overlap(sam_filename, tis_dict,  minsize = 20, maxsize = np.inf):   
     p5_site_dict = {}
     p5_site_dict_plus = {}
     p5_site_dict_minus = {}
@@ -1430,7 +1512,8 @@ def select_rpf_overlap(sam_filename, tis_dict,  minsize = 20, maxsize = np.inf):
                          'Mapq 0: ': 0,
                          'Outside size range: ': 0,
                          'Multimapper primary: ': 0,
-                         'Multimapper secondary: ': 0}
+                         'Multimapper secondary: ': 0,
+                         'Homopolymer reads (polyN): ': 0}
         
     '''
     open sam file and populate read dictionary, save as pickle
@@ -1445,10 +1528,19 @@ def select_rpf_overlap(sam_filename, tis_dict,  minsize = 20, maxsize = np.inf):
     
     samfile = open(sam_filename)
     print('Processing RPF sam file ...', sam_filename)
+    excluded_samfile_name = ('{run_name}/_{run_name}_excluded_reads.sam').format(
+        run_name = run_name)
+    
+    print('Excluded reads are saved to: ', excluded_samfile_name)
+    
+    excluded_samfile = open(excluded_samfile_name, 'w')
     
     for line in samfile:
         if (line_ct >= 1e6) and (line_ct % 1e6) == 0:
             print('Processing ', line_ct)
+            
+        if line[0] == '@':
+            excluded_samfile.write(line)
                     
         if line[0] != '@':
             line_ct += 1
@@ -1471,6 +1563,7 @@ def select_rpf_overlap(sam_filename, tis_dict,  minsize = 20, maxsize = np.inf):
             if (mapq != 255):
                 if (mapq == 0):
                     mapq_distribution['Mapq 0: '] += 1
+                    excluded_samfile.write(line)
                     
                 if (mapq > 0):
                     flag = int(line.split('\t')[1])
@@ -1480,8 +1573,15 @@ def select_rpf_overlap(sam_filename, tis_dict,  minsize = 20, maxsize = np.inf):
                         process = True
                     else:
                         mapq_distribution['Multimapper secondary: '] += 1
-                    
-            if process:                
+                        excluded_samfile.write(line)
+            
+            seq = line.split('\t')[9]        
+            not_homopolymer = remove_homopolymers(seq, 0.75)
+            if not not_homopolymer:
+                mapq_distribution['Homopolymer reads (polyN): '] += 1
+                excluded_samfile.write(line)
+
+            if process and not_homopolymer:                
                 #sequence = line.split('\t')[9]
 
                 cigar = line.split('\t')[5]
@@ -1507,7 +1607,6 @@ def select_rpf_overlap(sam_filename, tis_dict,  minsize = 20, maxsize = np.inf):
                     we can adjust the stop appropriately
                     '''
                     start = int(line.split('\t')[3])
-                    #size = len(n_sequence)
                     stop = start + size
                  
                     # build p5_site object
@@ -1519,9 +1618,14 @@ def select_rpf_overlap(sam_filename, tis_dict,  minsize = 20, maxsize = np.inf):
                     
                 else:
                     mapq_distribution['Outside size range: '] += 1
-
-
+                    excluded_samfile.write(line)
+    
+    samfile.close()
+    excluded_samfile.close()
+    
+    #TODO make norm_multiplier optional
     norm_multiplier = 1e6/hit_ct
+    
     outline = ('Summary:\n'
                '\tTotal hits: {hit_ct} \n'
                '\tNormalization multiplier: {norm_multiplier} \n'
@@ -1538,7 +1642,8 @@ def select_rpf_overlap(sam_filename, tis_dict,  minsize = 20, maxsize = np.inf):
         
     removed = (mapq_distribution['Mapq 0: '] + 
                 mapq_distribution['Outside size range: '] + 
-                mapq_distribution['Multimapper secondary: '])
+                mapq_distribution['Multimapper secondary: '] +
+                mapq_distribution['Homopolymer reads (polyN): '])
 
         
     outline = ('Reads used: {kept}, {kept_pct}%\n'
@@ -1552,8 +1657,8 @@ def select_rpf_overlap(sam_filename, tis_dict,  minsize = 20, maxsize = np.inf):
         
     return(p5_site_dict, p5_site_dict_plus, p5_site_dict_minus, fragment_data_object, norm_multiplier)
 
-def make_psite_bedgraph(sample_read_object, runmode,  norm_multiplier):
-    
+def make_psite_bedgraph(sample_read_object, runmode, norm_multiplier, bedgraph_set):
+
     runname = sample_read_object['reference_name']
     data_type = sample_read_object['data_type']
     psite_dict = sample_read_object[runmode]
@@ -1586,30 +1691,20 @@ def make_psite_bedgraph(sample_read_object, runmode,  norm_multiplier):
                     
         outfile.close()
             
-        print(outfile_name)
+        bedgraph_set.add(outfile_name)
+    
+    return(bedgraph_set)
 
 def make_psite_fractions(fragment_data_object, weight_dict, sample_read_object, runmode = 'singular'): 
-    '''
-    psite_dict is the RPF occupancy object that stores data in genome coordinates.
-    
-    it is intended to be used to generate RPF occupancy features
-    
-    # old_format
-    # psite_dict[chromo][coord] += weight
-    '''
     psite_dict = {'+':{}, '-':{}}
            
     #fragment_data_object[sign][chromo][nt][size]
     for sign in fragment_data_object:
         for chromo in fragment_data_object[sign]:
-            
-            if chromo not in psite_dict[sign]:
-                psite_dict[sign][chromo] = {}
-            
             for start in fragment_data_object[sign][chromo]:
                 for size in fragment_data_object[sign][chromo][start]:
-                                        
                     stop = start + size
+                    val = fragment_data_object[sign][chromo][start][size]
                     
                     if runmode == 'singular':
                         offset = abs(weight_dict[size])
@@ -1619,11 +1714,14 @@ def make_psite_fractions(fragment_data_object, weight_dict, sample_read_object, 
                                                     
                         if sign == '-':
                             psite = stop - offset
-                                                        
+                            
+                        if chromo not in psite_dict[sign]:
+                            psite_dict[sign][chromo] = {}
+                            
                         if psite not in psite_dict[sign][chromo]:
                             psite_dict[sign][chromo][psite] = 0
                             
-                        psite_dict[sign][chromo][psite] += 1   
+                        psite_dict[sign][chromo][psite] += val   
                         
                     if runmode == 'multiple':
                         for distance in weight_dict[size]:
@@ -1635,61 +1733,15 @@ def make_psite_fractions(fragment_data_object, weight_dict, sample_read_object, 
                                                         
                             if sign == '-':
                                 psite = stop - offset
-                                                                
+                                
+                            if chromo not in psite_dict[sign]:
+                                psite_dict[sign][chromo] = {}
+                                
                             if psite not in psite_dict[sign][chromo]:
                                 psite_dict[sign][chromo][psite] = 0
                                 
-                            psite_dict[sign][chromo][psite] += 1*modifier
-                            
-                    if runmode == 'asite':                        
-                        if size in asite_frac_lookup:
-                            fraction_set = asite_frac_lookup[size]
-                            
-                            weight = round(1/(len(fraction_set)),2)
-                            
-                            for offset in fraction_set:
-                                if sign == "+":
-                                    psite = start + offset
-                                    
-                                if sign == "-":
-                                    psite = stop - offset
-                                                                                                                                            
-                                if psite not in psite_dict[sign][chromo]:
-                                    psite_dict[sign][chromo][psite] = 0
-                                    
-                                psite_dict[sign][chromo][psite] += weight
-                                
-                    if runmode == 'fraction':
-                        offset_bins = abs(size - 28)
-                                
-                        if sign == "+":
-                            psite = start + 12
-                            
-                        if sign == "-":
-                            psite = stop - 13
-                            
-                        weight = round(1/(1+(2*offset_bins)),5)
-                            
-                        if psite not in psite_dict[sign][chromo]:
-                            psite_dict[sign][chromo][psite] = 0
-                            
-                        psite_dict[sign][chromo][psite] += weight
-                                                    
-                        for offset in range(offset_bins):
-                            mod_psite = psite + offset + 1
-                            
-                            if mod_psite not in psite_dict[sign][chromo]:
-                                psite_dict[sign][chromo][mod_psite] = 0
-                                
-                            psite_dict[sign][chromo][mod_psite] += weight
-                            
-                            mod_psite = psite - offset + 1
-                            
-                            if mod_psite not in psite_dict[sign][chromo]:
-                                psite_dict[sign][chromo][mod_psite] = 0
-                                
-                            psite_dict[sign][chromo][mod_psite] += weight
-                                        
+                            psite_dict[sign][chromo][psite] += val*modifier
+        
     if runmode in sample_read_object:
         print('error duplicate data or duplicate names in input files')
         
@@ -1797,7 +1849,7 @@ def make_split_weight(p5_site_dict):
 
 
     
-def parse_reads(sample_read_object, sam_filename): 
+def parse_reads(sample_read_object, sam_filename, bedgraph_set): 
     '''
     size = '28nt'
     #only 28mers
@@ -1840,6 +1892,8 @@ def parse_reads(sample_read_object, sam_filename):
     
     # TODO make data type CLI
     runname = args.run_name
+    psite_mode = resources_dict['psite_mode']
+    
     
     # TODO finish data load interface
     # if runname not in sample_read_object:
@@ -1853,52 +1907,76 @@ def parse_reads(sample_read_object, sam_filename):
                         'reference_name': runname}
 
     # get CDS TIS
-    reference_gff_filename = resources_object['reference_gff_filename']
-    tis_dict = parse_gff_for_cds_tis(reference_gff_filename)
+    genome_gff_name = ('C:/Gresham/genomes/Ensembl/Saccharomyces_cerevisiae.R64-1-1.50.gff3')
+    tis_dict = parse_gff_for_cds_tis(genome_gff_name)
     
     #
     #identify RPFs that overlap
     sam_filename = args.sam_filename
     #
-    # runname = "RPF_CJM_R3"
-    # sam_filename = ('C:/Gresham/tiny_projects/uorfish/CJM/RPF_CJM_R3.sorted.sam')
     p5_site_dict, p5_site_dict_plus, p5_site_dict_minus, fragment_data_object, norm_multiplier = select_rpf_overlap(sam_filename, tis_dict, 15, 80)
+    
+    norm_multiplier = 1
     
     make_heatmap(p5_site_dict, runname, '')
     #make_heatmap(p5_site_dict_plus, runname, '+')
     #make_heatmap(p5_site_dict_minus, runname, '-')
-            
-    weight_dict = make_max_weight(p5_site_dict)
-    sample_read_object = make_psite_fractions(fragment_data_object, weight_dict, sample_read_object, 'singular')
-    make_psite_bedgraph(sample_read_object, 'singular', norm_multiplier)
-    # bedgraph_dict = store_bedgraph(size, match_sign, bedgraph_dict, psite_dict)
-    # populate_data_object(read_data_object, 'singular', psite_dict)
+    
+    if psite_mode == "singular":
+        weight_dict = make_max_weight(p5_site_dict)
+        sample_read_object = make_psite_fractions(fragment_data_object, weight_dict, sample_read_object, 'singular')
+        bedgraph_set = make_psite_bedgraph(sample_read_object, 'singular', norm_multiplier, bedgraph_set)
+        
     
     # psite_dict = make_psite_fractions(sam_filename, single_point_dict, 29, 29, 'singular')
     # make_bedgraph(psite_dict, 'singular_29', runname, norm_multiplier)
-    
-    weight_dict = make_split_weight(p5_site_dict)
-    sample_read_object = make_psite_fractions(fragment_data_object, weight_dict, sample_read_object, 'multiple')
-    make_psite_bedgraph(sample_read_object, 'multiple', norm_multiplier)
-    # bedgraph_dict = store_bedgraph(size, match_sign, bedgraph_dict, psite_dict)
-    #
-    
-    sample_read_object = make_psite_fractions(fragment_data_object, weight_dict, sample_read_object, 'asite')
-    make_psite_bedgraph(sample_read_object, 'asite', norm_multiplier)
-    
-    
-    sample_read_object = make_psite_fractions(fragment_data_object, weight_dict, sample_read_object, 'fraction')
-    make_psite_bedgraph(sample_read_object, 'fraction', norm_multiplier)
-    
-    return(sample_read_object)
+    if psite_mode == "multiple":
+        weight_dict = make_split_weight(p5_site_dict)
+        sample_read_object = make_psite_fractions(fragment_data_object, weight_dict, sample_read_object, 'multiple')
+        bedgraph_set = make_psite_bedgraph(sample_read_object, 'multiple', norm_multiplier, bedgraph_set)
+        
+    return(sample_read_object, bedgraph_set)
 
 '''
 # parse uorfs
 '''
 
+
+
+def parse_uorf():
+    uorf_validation_type = resources_dict['uorf_validation_type']
+    validated_uorfs_filename = resources_dict['validated_uorfs_filename']
+    
+    outline = ("... using validated uORFs: {}").format(validated_uorfs_filename)
+    print(outline)
+    
+    validated_uorfs = {}
+
+    '''
+    	gene	start	stop	sign	is_uorf	source	validated
+    0	YAL019W-A	114222	oORF	+	TRUE	may_2023	molecular
+
+    '''
+    
+    df = pd.read_csv(validated_uorfs_filename, index_col = 0)
+    
+    if uorf_validation_type != 'all':
+        df = df.loc[df['validated'] == uorf_validation_type]
+        
+    validated_uorfs = df.to_dict('index')
+    
+    for vuorf in validated_uorfs:
+        if validated_uorfs[vuorf]['start'] != 'oORF':
+            validated_uorfs[vuorf]['start'] = int(validated_uorfs[vuorf]['start'])
+            
+        if validated_uorfs[vuorf]['stop'] != 'oORF':
+            validated_uorfs[vuorf]['stop'] = int(validated_uorfs[vuorf]['stop'])
+   
+    return(validated_uorfs)
+
 def parse_gff_uorf():
-    uorf_validation_type = resources_object['uorf_validation_type']
-    validated_uorfs_filename = resources_object['validated_uorfs_filename']
+    uorf_validation_type = resources_dict['uorf_validation_type']
+    validated_uorfs_filename = resources_dict['validated_uorfs_filename']
         
     outline = ("... using validated uORFs: {}").format(validated_uorfs_filename)
     print(outline)
@@ -1924,6 +2002,7 @@ def parse_gff_uorf():
     for line in validated_uorfs_file:
         if line[0] != '#':
             line = line.strip()
+            #print(line)
             chromo, _v, _t, left, right, _d1, sign, _d2, deets = line.split('\t')
             start = int(left)
             stop = int(right)
@@ -1933,6 +2012,13 @@ def parse_gff_uorf():
             source = deets.split('Source=')[1].split(';')[0]
             is_uorf = deets.split('is_uORF=')[1].split(';')[0]
             validated = deets.split('validated=')[1].split(';')[0]
+            
+            if 'T' in is_uorf.upper():
+                is_uorf = True
+            
+            else:
+                if 'F' in is_uorf.upper():
+                    is_uorf = False
                         
             if (uorf_validation_type == 'all') or (validated == uorf_validation_type):
                 if vuorf not in validated_uorfs:
@@ -1950,41 +2036,63 @@ def parse_gff_uorf():
 '''
 # build_features_object
 '''
-def load_psite_object():
-    psite_object = {'+':{},
-                    '-':{}}
+def load_psite_object(psite_bedgraph_name, psite_object):
+
+    print('Running load_psite_object...', psite_bedgraph_name)
     
     # TODO revist loading sam files instead, bedgraphs lack the strand sensitivity that is needed 
-    text_and_sign = {'plus':'+', 
-                       'minus':'-'}
+    # text_and_sign = {'plus':'+', 
+    #                    'minus':'-'}
+    sign = ''
+    if 'plus' in psite_bedgraph_name:
+        sign = '+'
     
-    for strain in set(['DGY1726']):
-        for replicate in set(['R1']):
-            for text in text_and_sign:
-                for size in set(['all', '28nt']):
-                    sign = text_and_sign[text]
-                    infile_name = ('C:/Gresham/2023_09_11_Project_Carolino/analyses/sam/Ensembl_aligned_bedgraphs/RPF_{strain}_{replicate}_{size}_{text}.bedgraph').format(strain = strain, replicate = replicate, size = size, text = text)                
-                    infile = open(infile_name)
+    if 'minus' in psite_bedgraph_name:
+        sign = '-'
+    
+    print('sign', sign)
+#     for strain in set(['DGY1657']):
+# #    for strain in set(['DGY1726', 'DGY1735', 'DGY1741', 'DGY1743']):
+#         for replicate in set(['R1']):
+# #        for replicate in set(['R1', 'R2']):
+#             for text in text_and_sign:
+#                 for size in set(['all']):
+#                 #for size in set(['all', '28nt']):
+#                     sign = text_and_sign[text]
+#                     #infile_name = ('C:/Gresham/2023_09_11_Project_Carolino/analyses/sam/Ensembl_aligned_bedgraphs/RPF_{strain}_{replicate}_{size}_{text}.bedgraph').format(strain = strain, replicate = replicate, size = size, text = text)
+#                     #
+#                     infile_name = ('C:/Gresham/tiny_projects/quorf/{strain}_rep1_RPF_singular_{text}.bedgraph').format(strain = strain, replicate = replicate, size = size, text = text)
                     
-                    for line in infile:
-                        chromo = line.split('\t')[0]
-                        if 'chr' in chromo:
-                            chromo = chromo.split('chr')[1]
-                            
-                        #start = int(line.split('\t')[1])
-                        stop = int(line.split('\t')[2])
-                        val = float(line.split('\t')[3])
-                        
-                        if chromo not in psite_object[sign]:
-                            psite_object[sign][chromo] = {}
-                            
-                        if stop not in psite_object[sign][chromo]:
-                            psite_object[sign][chromo][stop] = 0
-                            
-                        psite_object[sign][chromo][stop] += val
-                        
-                    infile.close()
+    infile = open(psite_bedgraph_name)
+    
+    for line in infile:
+        
+        chromo = line.split('\t')[0]
+        
+        if 'CHR' in chromo.upper():
+            chromo = chromo.upper().split('CHR')[1]
+        
+        if (sign != '+') and (sign != '-'):
+            print('sign error: ', sign)
+            1/0
+        
+        if sign == '+':
+            nt = int(line.split('\t')[1])
+        else:
+            nt = int(line.split('\t')[2])
+        
+        val = float(line.split('\t')[3])
+        
+        if chromo not in psite_object[sign]:
+            psite_object[sign][chromo] = {}
             
+        if nt not in psite_object[sign][chromo]:
+            psite_object[sign][chromo][nt] = 0
+            
+        psite_object[sign][chromo][nt] += val
+        
+    infile.close()
+        
     return(psite_object)
 
 
@@ -2009,188 +2117,198 @@ parse_rpf
 '''
 
 
+# start_codons = set(['ATG', 'TTG', 'GTG', 'CTG', 'ATA', 'ATT', 'ACG', 'ATC'])
+
+# stop_codons = set(['TAA', 'TAG', 'TGA'])
+
+# sign_to_text = {'+':'plus','-':'minus'}
+
+# def unpackbits(x,num_bits=12):
+#     '''
+#     SAM flags are bit encoded - this function seperates them and assigns labels
+#     '''
+    
+#     xshape = list(x.shape)
+#     x = x.reshape([-1,1])
+#     to_and = 2**np.arange(num_bits).reshape([1,num_bits])
+#     upb = (x & to_and).astype(bool).astype(int).reshape(xshape + [num_bits])
+
+#     #0  (rp)    read_paired
+#     #1  (rmp)    read_mapped_in_proper_pair
+#     #2  (ru)    read_unmapped
+#     #3  (mu)    mate_unmapped
+#     #4  (rrs)    read_reverse_strand
+#     #5  (mrs)    mate_reverse_strand
+#     #6  (fip)    first_in_pair
+#     #7  (sip)    second_in_pair
+#     #8  (npa)    not_primary_alignment
+#     #9  (rfp)    read_fails_platform
+#     #10 (pcr)    read_is_PCR_or_optical_duplicate
+#     #11 (sa)    supplementary_alignment
+#     """
+#     strand = unpackbits(np.array([int(line.split('\t')[1])]))[0][4]
+#     such that 0 == '+' and 1 == '-'
+#     """
+    
+#     """ DISCORDANT definition (from samblaster)
+#         Both side of the read pair are mapped (neither FLAG 0x4 or 0x8 is set).
+#         The properly paired FLAG (0x2) is not set.
+#         Note: We implemented an additional criteria to distinguish between strand re-orientations and distance issues
+#         Strand Discordant reads must be both on the same strand.
+#     """
+        
+#     """ SPLIT READS
+#         Identify reads that have between two and --maxSplitCount [2] primary and supplemental alignments.
+#         Sort these alignments by their strand-normalized position along the read.
+#         Two alignments are output as splitters if they are adjacent on the read, and meet these criteria:
+#             each covers at least --minNonOverlap [20] base pairs of the read that the other does not.
+#             the two alignments map to different reference sequences and/or strands. 
+#             the two alignments map to the same sequence and strand, and represent a SV that is at least --minIndelSize [50] in length, 
+#             and have at most --maxUnmappedBases [50] of un-aligned base pairs between them.
+#         Split read alignments that are part of a duplicate read will be output unless the -e option is used.
+#     """
+    
+#     return(upb) 
+
+
+
+
 '''
 # p_site_analysis
 '''
 
-def load_psite_object_v2():
-    psite_object = {}
+# def load_psite_object():
+#     psite_object = {}
     
-    '''
-    psite_object = {}
-    psite_object[runmode][sign][chromo][nt] = psite_value
-    
-    #
-    read_dict = {runmode: psite_dict}
-    psite_dict[sign][chromo][psite]
-    '''
-    
-    read_object_name = resources_object['read_object']
-    read_object = open(read_object_name, 'rb')
-    read_dict = pickle.load(read_object)
-    
-    # print('data_type', read_dict['data_type'])
-    # print('reference_name', read_dict['reference_name'])
-    
-    # for key in read_dict:
-    #     print(key)
+#     rpf_object_name = resources_dict['rpf_object']
+#     rpf_object = open(rpf_object_name, 'rb')
+#     rpf_dict = pickle.load(rpf_object)
         
-    for runmode in ['singular', 'multiple', 'asite', 'fraction']:
-        
-        psite_object[runmode] = {}
-        
-        psite_dict = read_dict[runmode]
-        
-        for sign in psite_dict:
-            #print('sign', sign)
-            
-            if sign not in psite_object[runmode]:
-                psite_object[runmode][sign] = {}
-                    
-            for chromo in psite_dict[sign]:
-                #print('chromo', chromo)
-                # if error check 'chr' in chromo name
-                # if 'chr' in coord_chromo:
-                #     chromo = coord_chromo.split('chr')[1]
-                # else:
-                #     chromo = coord_chromo
-                    
-                if chromo not in psite_object[runmode][sign]:
-                    psite_object[runmode][sign][chromo] = {}
-                    
-                # print(runmode, sign, chromo)
-                # ct = 0
-                # while ct < 10:
-                #     ct+=1 
-                #     print(psite_dict[size][chromo])
-                #     1/0
-                    
-                for nt in psite_dict[sign][chromo]:
-                    # print('nt', nt)
-                    val = float(psite_dict[sign][chromo][nt])
-                            
-                    if nt not in psite_object[runmode][sign][chromo]:
-                        psite_object[runmode][sign][chromo][nt] = 0
-                        
-                    psite_object[runmode][sign][chromo][nt] += val
-                    
-    return(psite_object)
-
-def strand_agnostic(puorf_dict, psite_object):
-    
-    '''
-    psite_object = {}
-    psite_object[runmode][size][coord_chromo][nt] = psite_value
-    
-    
-    relative_puorf_dict = {}
-    relative_puorf_dict[runmode][gene][puorf] = {
-                'left' = rel_start,
-                'right' = rel_stop,
-                'mask_stop' = mask_stop,
-                'coord_start' = genome_coord_start,
-                'coord_stop' = genome_coord_stop,
-                'psite_vals' = RPF_psite_val,
-                'rnt' = relative_nucleotide,
-                'psite_dict' = {rnt:val}
+#     for size in rpf_dict:
+#         for sign in rpf_dict[size]:
+#             if sign not in psite_object:
+#                 psite_object[sign] = {}
                 
-                }
-    '''
+#             for coord_chromo in rpf_dict[size][sign]:
+#                 if 'chr' in coord_chromo:
+#                     chromo = coord_chromo.split('chr')[1]
+#                 else:
+#                     chromo = coord_chromo
+                    
+#                 if chromo not in psite_object[sign]:
+#                     psite_object[sign][chromo] = {}
+                    
+#                 for nt in rpf_dict[size][sign][coord_chromo]:
+#                     val = float(rpf_dict[size][sign][coord_chromo][nt])
+                            
+#                     if nt not in psite_object[sign][chromo]:
+#                         psite_object[sign][chromo][nt] = 0
+                        
+#                     psite_object[sign][chromo][nt] += val
+                    
+#     return(psite_object)
+
+def strand_agnostic(puorf_dict, psite_object):    
     relative_puorf_dict = {}
     start_codons_by_chromo = {}
-    
-    for runmode in psite_object:
-        if runmode not in relative_puorf_dict:
-            relative_puorf_dict[runmode] = {}
 
-        for gene in puorf_dict:
-            chromo = puorf_dict[gene][-1]['chromo']
-            if chromo not in start_codons_by_chromo:
-                start_codons_by_chromo[chromo] = set()
-            
-            sign = puorf_dict[gene][-1]['coord_sign']
-            
-            # 15 nt mORF mask
-            if sign == '+':
-                mask_stop = puorf_dict[gene][-1]['coord_stop'] - 9
-            else:
-                mask_stop = puorf_dict[gene][-1]['coord_start'] + 9
-            
-            # if 'status' not in puorf_dict[gene][-1]:
-            #     print(gene, chromo, sign)
-            #     print(puorf_dict[gene])
-            #     1/0
-            
-            for puorf in puorf_dict[gene]:
-                if puorf == -1:
-                    puorf_start = puorf_dict[gene][puorf]['coord_start']
-                    puorf_stop = puorf_dict[gene][puorf]['coord_stop']
+    for gene in puorf_dict:
+        chromo = puorf_dict[gene][-1]['chromo']
                 
-                if puorf >= 0:
-                    puorf_start = puorf_dict[gene][puorf]['puorf_start']
-                    puorf_stop = puorf_dict[gene][puorf]['puorf_stop']
-                    start_codons_by_chromo[chromo].add(puorf_start)
-                                
-                rel_start = min(puorf_start, puorf_stop)
-                rel_stop = max(puorf_start, puorf_stop)
-                puorf_dict[gene][puorf]['left'] = rel_start
-                puorf_dict[gene][puorf]['right'] = rel_stop
-                puorf_dict[gene][puorf]['mask_stop'] = mask_stop
-                        
-                # TODO - change of if statement 01.30.24
-                if gene not in relative_puorf_dict[runmode]:
-                    relative_puorf_dict[runmode][gene] = {}
-                    
-                if puorf not in relative_puorf_dict[runmode][gene]:
-                    relative_puorf_dict[runmode][gene][puorf] = puorf_dict[gene][puorf]
-                    
-                psite_vals = []
-                rnt_coord = []
-    
-                length = abs(puorf_stop - puorf_start)
-                           
-                if sign == '+':
-                    for rnt in range(-15, length+1):
-                        nt = rnt + rel_start
-                        if nt in psite_object[runmode][sign][chromo]:
-                            if nt < mask_stop:
-                                psite_vals.append(psite_object[runmode][sign][chromo][nt])
-                                rnt_coord.append(rnt)
-                            else:
-                                psite_vals.append(0)
-                                rnt_coord.append(rnt)
+        if chromo not in start_codons_by_chromo:
+            start_codons_by_chromo[chromo] = set()
+        
+        sign = puorf_dict[gene][-1]['coord_sign']
+        
+        # 15 nt mORF mask
+        if sign == '+':
+            mask_stop = puorf_dict[gene][-1]['coord_stop'] - 9
+        else:
+            mask_stop = puorf_dict[gene][-1]['coord_start'] + 9
+        
+        #print(gene, chromo, sign)
+        
+        for puorf in puorf_dict[gene]:
+            if puorf == -1:
+                puorf_start = puorf_dict[gene][puorf]['coord_start']
+                puorf_stop = puorf_dict[gene][puorf]['coord_stop']
+            
+            if puorf >= 0:
+                puorf_start = puorf_dict[gene][puorf]['puorf_start']
+                puorf_stop = puorf_dict[gene][puorf]['puorf_stop']
+                start_codons_by_chromo[chromo].add(puorf_start)
                             
+            rel_start = min(puorf_start, puorf_stop)
+            rel_stop = max(puorf_start, puorf_stop)
+            puorf_dict[gene][puorf]['left'] = rel_start
+            puorf_dict[gene][puorf]['right'] = rel_stop
+            puorf_dict[gene][puorf]['mask_stop'] = mask_stop
+                                
+            # TODO - change of if statement 01.30.24
+            if gene not in relative_puorf_dict:
+                relative_puorf_dict[gene] = {}
+                
+            if puorf not in relative_puorf_dict[gene]:
+                relative_puorf_dict[gene][puorf] = puorf_dict[gene][puorf]
+                
+            psite_vals = []
+            rnt_coord = []
+
+            length = abs(puorf_stop - puorf_start)
+                       
+            if sign == '+':
+                for rnt in range(-15, length+1):
+                    nt = rnt + rel_start
+                    
+                    if nt in psite_object[sign][chromo]:
+                        if nt < mask_stop:
+                            psite_vals.append(psite_object[sign][chromo][nt])
+                            rnt_coord.append(rnt)
                         else:
                             psite_vals.append(0)
                             rnt_coord.append(rnt)
-                            
-                if sign == '-':
-                    for rnt in range(15, -1*(length+1), -1):
-                        nt = rnt + rel_stop
-                        if nt in psite_object[runmode][sign][chromo]:
-                            if nt > mask_stop:
-                                psite_vals.append(psite_object[runmode][sign][chromo][nt])
-                            else:
-                                psite_vals.append(0)
-                        else:
-                            psite_vals.append(0)
-                            
-                    #psite_vals = psite_vals[::-1]
-                    for rnt in range(-15, (-15+len(psite_vals))):
+                        
+                    else:
+                        psite_vals.append(0)
                         rnt_coord.append(rnt)
                         
-                relative_puorf_dict[runmode][gene][puorf]['psite_vals'] = psite_vals
-                relative_puorf_dict[runmode][gene][puorf]['rnt_coord'] = rnt_coord
-                
-                psite_dict = {}
-                
-                for i in range(len(rnt_coord)):
-                    rnt = rnt_coord[i]
-                    val = psite_vals[i]
+            if sign == '-':
+                for rnt in range(15, -1*(length+1), -1):
+                    nt = rnt + rel_stop
+                    if nt in psite_object[sign][chromo]:
+                        if nt > mask_stop:
+                            psite_vals.append(psite_object[sign][chromo][nt])
+                        else:
+                            psite_vals.append(0)
+                    else:
+                        psite_vals.append(0)
+                        
+                #psite_vals = psite_vals[::-1]
+                for rnt in range(-15, (-15+len(psite_vals))):
+                    rnt_coord.append(rnt)
                     
-                    psite_dict[rnt] = val
-                    
-                relative_puorf_dict[runmode][gene][puorf]['psite_dict'] = psite_dict
+            relative_puorf_dict[gene][puorf]['psite_vals'] = psite_vals
+            relative_puorf_dict[gene][puorf]['rnt_coord'] = rnt_coord
+            
+            psite_dict = {}
+            
+            for i in range(len(rnt_coord)):
+                rnt = rnt_coord[i]
+                val = psite_vals[i]
+                
+                psite_dict[rnt] = val
+                
+            relative_puorf_dict[gene][puorf]['psite_dict'] = psite_dict
+        
+        '''checked - passed
+        #if (gene == 'YEL009C'): 
+        if (gene == 'YKR042W'): 
+            print(gene)
+            print(puorf_dict[gene])
+            print('#')
+            print(relative_puorf_dict[gene])
+            1/0
+        '''
                     
     return(relative_puorf_dict)
 
@@ -2200,24 +2318,13 @@ def if_in_else_zero(num, psite_dict):
     else:
         return(0)
     
-def detect_overflow(puorf_features, start_codons_by_chromo, runmode):
-    drop_psite_dict_colname = ('_drop_psite_dict_{}').format(runmode)
-    lump_colname = ('lump_{}').format(runmode)
-    lump_sum_colname = ('lump_sum_{}').format(runmode)
-    another_option_colname = ('another_option_{}').format(runmode)
-    
-    hscore_colname = ('hscore_{}').format(runmode)            
-    lscore_colname = ('lscore_{}').format(runmode)
-    
-    resolved_score_colname = ('resolved_score_{}').format(runmode)
-    
+def detect_overflow(puorf_features, start_codons_by_chromo):
     for uid in puorf_features:
-        puorf_features[uid][lump_colname] = 'peak'
-        puorf_features[uid][another_option_colname] = 0
+        puorf_features[uid]['lump'] = 'peak'
         
         if puorf_features[uid]['pass_filter_one']:
             #test from left
-            psite_dict = puorf_features[uid][drop_psite_dict_colname]
+            psite_dict = puorf_features[uid]['_drop_psite_dict']
             tis_val = if_in_else_zero(0, psite_dict)
             tis_one_up = if_in_else_zero(-1, psite_dict)
             tis_two_up = if_in_else_zero(-2, psite_dict)
@@ -2227,7 +2334,7 @@ def detect_overflow(puorf_features, start_codons_by_chromo, runmode):
             for rnt in range(-3, 1):
                 if (rnt in psite_dict):
                     lump_sum += psite_dict[rnt]
-            puorf_features[uid][lump_sum_colname] = lump_sum
+            puorf_features[uid]['lump_sum'] = lump_sum
         
             #using a 10% leniency
             if (1.1*tis_val) <= (lump_sum/2):
@@ -2252,14 +2359,14 @@ def detect_overflow(puorf_features, start_codons_by_chromo, runmode):
                                     if coord_nt in start_set:
                                         another_option = coord_nt
                             
-                            puorf_features[uid][another_option_colname] = another_option
+                            puorf_features[uid]['another_option'] = another_option
                             
-                            puorf_features[uid][lump_colname] = 'lump'
+                            puorf_features[uid]['lump'] = 'lump'
                                 
             #test from right
             #YCR024C-A III 163185	163208
             
-            psite_dict = puorf_features[uid][drop_psite_dict_colname]
+            psite_dict = puorf_features[uid]['_drop_psite_dict']
             tis_val = if_in_else_zero(0, psite_dict)
             tis_one_up = if_in_else_zero(1, psite_dict)
             tis_two_up = if_in_else_zero(2, psite_dict)
@@ -2269,7 +2376,7 @@ def detect_overflow(puorf_features, start_codons_by_chromo, runmode):
             for rnt in range(4):
                 if (rnt in psite_dict):
                     lump_sum += psite_dict[rnt]
-            puorf_features[uid][lump_sum_colname] = lump_sum
+            puorf_features[uid]['lump_sum'] = lump_sum
         
             if (1.1*tis_val) <= (lump_sum/2):
                 if (1.1*tis_val) >= tis_three_up:
@@ -2293,330 +2400,267 @@ def detect_overflow(puorf_features, start_codons_by_chromo, runmode):
                                     if coord_nt in start_set:
                                         another_option = coord_nt
                             
-                            puorf_features[uid][another_option_colname] = another_option
+                            puorf_features[uid]['another_option'] = another_option
                             
-                            puorf_features[uid][lump_colname] = 'lump'
-                                        
-            if puorf_features[uid][lump_colname] == 'lump':
-                reso = puorf_features[uid][lscore_colname]
-            else:
-                reso = puorf_features[uid][hscore_colname]
-                
-            puorf_features[uid][resolved_score_colname] = reso
-                
+                            puorf_features[uid]['lump'] = 'lump'
+                            
     return(puorf_features)
         
 def build_features(puorf_features, relative_puorf_dict, validated_uorfs):
     
-    '''
-    relative_puorf_dict[runmode][gene][puorf] = {
-                'left' = rel_start,
-                'right' = rel_stop,
-                'mask_stop' = mask_stop,
-                'coord_start' = genome_coord_start,
-                'coord_stop' = genome_coord_stop,
-                'psite_vals' = RPF_psite_val,
-                'rnt' = relative_nucleotide,
-                'psite_dict' = {rnt:val}
-                
-                }
-    '''
+    if len(validated_uorfs) > 0:
+        outline = ('Quantifying features ...')
+        print(outline)
+    else:
+        outline = ('Estimating null model features ...')
+        print(outline)
     
-    outline = ('Quantifying features ...')
-    print(outline)
-    
-    for runmode in relative_puorf_dict:
-        for gene in relative_puorf_dict[runmode]:
-            for puorf in relative_puorf_dict[runmode][gene]:
-                if puorf >= 0:
-                    uid = len(puorf_features)
-                    puorf_features[uid] = {}
-                    relative_puorf_dict[runmode][gene][puorf]['uid'] = uid
-                    
-                    if 'status' not in relative_puorf_dict[runmode][gene][puorf]:
-                        print(gene, puorf)
-                        print(relative_puorf_dict[runmode][gene][puorf])
-                        1/0
-
-                    puorf_features[uid]['_puorf'] = puorf
-                    puorf_features[uid]['_gene'] = gene
-                    puorf_features[uid]['_chromo'] = relative_puorf_dict[runmode][gene][-1]['chromo']
-                    puorf_features[uid]['_left'] = relative_puorf_dict[runmode][gene][puorf]['left']
-                    puorf_features[uid]['_right'] = relative_puorf_dict[runmode][gene][puorf]['right']
-                    puorf_features[uid]['_sign'] = relative_puorf_dict[runmode][gene][-1]['coord_sign']
-                    puorf_features[uid]['_mask_stop'] = relative_puorf_dict[runmode][gene][-1]['mask_stop']
-                    puorf_features[uid]['start_codon'] = relative_puorf_dict[runmode][gene][puorf]['start_codon']
-                    puorf_features[uid]['stop_codon'] = relative_puorf_dict[runmode][gene][puorf]['stop_codon']
-                    puorf_features[uid]['status'] = relative_puorf_dict[runmode][gene][puorf]['status']
-                    
-                    nt_length = abs(puorf_features[uid]['_right'] - 
-                                    puorf_features[uid]['_left'])
-                    
-                    puorf_features[uid]['nt_length'] = nt_length
-                    puorf_features[uid]['aa_length'] = nt_length/3
-                    
-                    for vuorf in validated_uorfs:
-                        '''
-                        {'gene': gene,
-                         'start': uORFstart,
-                         'stop': uORFend,
-                         'sign': sign,
-                         'is_uorf': signif,
-                         'source': 'may_2023',
-                         'validated': 'molecular',
-                         'matched': False}
-                        '''
-                        if gene == validated_uorfs[vuorf]['gene']:
-                            if puorf_features[uid]['_sign'] == '+':
-                                if puorf_features[uid]['_left'] == validated_uorfs[vuorf]['start']:
-                                    puorf_features[uid]['_is_uorf'] = validated_uorfs[vuorf]['is_uorf']
-                                    validated_uorfs[vuorf]['matched'] = True
-                            else:
-                                if puorf_features[uid]['_right'] == validated_uorfs[vuorf]['stop']:
-                                    puorf_features[uid]['_is_uorf'] = validated_uorfs[vuorf]['is_uorf']
-                                    validated_uorfs[vuorf]['matched'] = True
-            
-    for uid in puorf_features:
+    for gene in relative_puorf_dict:
+        # Not sure if these should be enabled because of the TL bias in May 2023        
+        # sign = relative_puorf_dict[gene][-1]['coord_sign']
+        # if sign == '+':
+        #     tss_nt = relative_puorf_dict[gene][-1]['coord_start']
+        # else:
+        #     tss_nt = relative_puorf_dict[gene][-1]['coord_stop']
         
-        gene = puorf_features[uid]['_gene']
-        puorf = puorf_features[uid]['_puorf']
-        
-        for runmode in relative_puorf_dict:
-            
-            drop_psite_dict_colname = ('_drop_psite_dict_{}').format(runmode)
-            psite_dict = relative_puorf_dict[runmode][gene][puorf]['psite_dict']
-            puorf_features[uid][drop_psite_dict_colname] = psite_dict
-                            
-            # calc total depth
-            temp_colname = ('puorf_all_frames_{}').format(runmode)
-            val_sum = 0
-            for rnt in psite_dict:                    
-                if rnt >= 0:
-                    val_sum += psite_dict[rnt]
-            puorf_features[uid][temp_colname] = val_sum
-            
-            # calc total depth inframe
-            temp_colname = ('puorf_inframe_{}').format(runmode)
-            val_sum = 0
-            for rnt in psite_dict:                    
-                if (rnt >= 0) and (rnt % 3 == 0):
-                    val_sum += psite_dict[rnt]
-            puorf_features[uid][temp_colname] = val_sum
-            puorf_inframe = val_sum
-            
-            # calc total depth out of frame
-            temp_colname = ('puorf_outframe_{}').format(runmode)
-            val_sum = 0
-            for rnt in psite_dict:                    
-                if (rnt >= 0) and (rnt % 3 != 0):
-                    val_sum += psite_dict[rnt]
-            puorf_features[uid][temp_colname] = val_sum
-            puorf_outframe = val_sum
-            
-            # calc median and occupancy over all frames 
-            psite_body_all_frames = []
-            for rnt in psite_dict:
-                if rnt >= 13:
-                    if rnt in psite_dict:
-                        psite_body_all_frames.append(psite_dict[rnt])
-            
-            if len(psite_body_all_frames) > 0:        
-                temp_colname = ('puorf_body_all_frames_{}').format(runmode)
-                puorf_features[uid][temp_colname] = sum(psite_body_all_frames)
-                puorf_body_all_frames = sum(psite_body_all_frames)
-                                
-                temp_colname = ('puorf_body_median_{}').format(runmode)
-                puorf_body_median = np.mean([x for x in psite_body_all_frames if x >= 0])
-                puorf_features[uid][temp_colname] = puorf_body_median
-            
-            else:
-                temp_colname = ('puorf_body_all_frames_{}').format(runmode)
-                puorf_features[uid][temp_colname] = 1
-                puorf_body_all_frames = 1
-                                
-                temp_colname = ('puorf_body_median_{}').format(runmode)
-                puorf_features[uid][temp_colname] = 1       
-                puorf_body_median = 1
-                                                            
-            # calc initialzation 
-            temp_colname = ('initialzation_all_frames_{}').format(runmode)
-            val_sum = 0
-            for rnt in range(12+1):
-                if rnt >= 0:
-                    if rnt in psite_dict:
-                        val_sum += psite_dict[rnt]
-            puorf_features[uid][temp_colname] = val_sum
-            initialzation_all_frames = val_sum
-            
-            # calc initialzation inframe
-            temp_colname = ('initialzation_inframe_{}').format(runmode)
-            val_sum = 0
-            for rnt in range(12+1):
-                if (rnt >= 0) and (rnt % 3 == 0):
-                    if rnt in psite_dict:
-                        val_sum += psite_dict[rnt]
-            puorf_features[uid][temp_colname] = val_sum
-            initialzation_inframe = val_sum
-            
-            # calc initialzation outframe
-            temp_colname = ('initialzation_outframe_{}').format(runmode)
-            val_sum = 0
-            for rnt in range(12+1):
-                if (rnt >= 0) and (rnt % 3 != 0):
-                    if rnt in psite_dict:
-                        val_sum += psite_dict[rnt]
-            puorf_features[uid][temp_colname] = val_sum
-            initialzation_outframe = val_sum
-            
-            # calc TIS
-            temp_colname = ('tis_all_frames_{}').format(runmode)
-            val_sum = 0
-            for rnt in range(3+1):
-                if rnt >= 0:
-                    if rnt in psite_dict:
-                        val_sum += psite_dict[rnt]
-            puorf_features[uid][temp_colname] = val_sum
-                          
-            # calc TIS inframe
-            temp_colname = ('tis_inframe_{}').format(runmode)
-            val_sum = 0
-            for rnt in set([0]):
-                val_sum += psite_dict[rnt]
-            puorf_features[uid][temp_colname] = val_sum
-            tis_inframe = val_sum
-            
-            # calc TIS out of frame
-            temp_colname = ('tis_outframe_{}').format(runmode)
-            val_sum = 0
-            for rnt in range(3+1):
-                if (rnt >= 0) and (rnt % 3 != 0):
-                    if rnt in psite_dict:
-                        val_sum += psite_dict[rnt]
-            puorf_features[uid][temp_colname] = val_sum
-            tis_outframe = val_sum
-            
-            # calc upstream
-            temp_colname = ('upstream_all_frames_{}').format(runmode)
-            val_sum = 0
-            for rnt in range(-15, 0):
-                if rnt in psite_dict:
-                    val_sum += psite_dict[rnt]
-            puorf_features[uid][temp_colname] = val_sum
-                          
-            # calc upstream inframe
-            temp_colname = ('upstream_inframe_{}').format(runmode)
-            val_sum = 0
-            for rnt in range(-15, 0):
-                if (rnt in psite_dict) and (rnt % 3 == 0):
-                    val_sum += psite_dict[rnt]
-            puorf_features[uid][temp_colname] = val_sum
-            upstream_inframe = val_sum
-            
-            # calc upstream outframe
-            temp_colname = ('upstream_outframe_{}').format(runmode)
-            val_sum = 0
-            for rnt in range(-15, 0):
-                if (rnt in psite_dict) and (rnt % 3 != 0):
-                    val_sum += psite_dict[rnt]
-            puorf_features[uid][temp_colname] = val_sum
-            upstream_outframe = val_sum
-            
-            # calc heursitic score
-            temp_colname = ('tis_diff_{}').format(runmode)
-            # tis_inframe = puorf_features[uid]['tis_inframe']
-            # tis_outframe = puorf_features[uid]['tis_outframe']
-            tis_diff = (tis_inframe - tis_outframe)
-            puorf_features[uid][temp_colname] = tis_diff
-            
-            temp_colname = ('init_diff_{}').format(runmode)
-            # initialzation_inframe = puorf_features[uid]['initialzation_inframe']
-            # initialzation_outframe = puorf_features[uid]['initialzation_outframe']
-            # initialzation_all_frames = puorf_features[uid]['initialzation_all_frames']
-            init_diff = (initialzation_inframe - initialzation_outframe)
-            puorf_features[uid][temp_colname] = init_diff
+        for puorf in relative_puorf_dict[gene]:
+            if puorf >= 0:
+                uid = len(puorf_features)
+                puorf_features[uid] = {}
+                relative_puorf_dict[gene][puorf]['uid'] = uid
 
-            temp_colname = ('upstream_diff_{}').format(runmode)
-            # upstream_inframe = puorf_features[uid]['upstream_inframe']   
-            # upstream_outframe = puorf_features[uid]['upstream_outframe']
-            upstream_diff = (upstream_inframe - upstream_outframe)
-            puorf_features[uid][temp_colname] = upstream_diff
-            upstream_all_frames = upstream_diff
-            
-            temp_colname = ('puourf_diff_{}').format(runmode)
-            # puorf_inframe = puorf_features[uid]['puorf_inframe']
-            # puorf_outframe = puorf_features[uid]['puorf_outframe']
-            # puorf_all_frames = puorf_features[uid]['puorf_all_frames']
-            puourf_diff = (puorf_inframe - puorf_outframe)
-            puorf_features[uid][temp_colname] = puourf_diff
-            
-            #continuity
-            continuity_list = []
-            #print(gene, puorf_features[uid]['_chromo'], puorf_features[uid]['_left'], puorf_features[uid]['_right'])
-            #print(psite_dict)
-            
-            for i in range(max(psite_dict)):
-                codon_start = 0+i*3
-                codon_stop = 3+i*3
-                temp_bins = {0:0, 1:0, 2:0}
-                                    
-                if codon_stop in psite_dict:
-                    for rnt in range(codon_start, codon_stop):
-                        inbin = rnt % 3
-                        val = psite_dict[rnt]
-                        temp_bins[inbin] += val
-                        #print(rnt, inbin, val)
+                puorf_features[uid]['_puorf'] = puorf
+                puorf_features[uid]['_gene'] = gene
+                puorf_features[uid]['_chromo'] = relative_puorf_dict[gene][-1]['chromo']
+                puorf_features[uid]['_left'] = relative_puorf_dict[gene][puorf]['left']
+                puorf_features[uid]['_right'] = relative_puorf_dict[gene][puorf]['right']
+                puorf_features[uid]['_sign'] = relative_puorf_dict[gene][-1]['coord_sign']
+                puorf_features[uid]['_mask_stop'] = relative_puorf_dict[gene][-1]['mask_stop']
+                puorf_features[uid]['start_codon']= relative_puorf_dict[gene][puorf]['start_codon']
                                                 
-                    if (temp_bins[0] > temp_bins[1]) and (temp_bins[0] > temp_bins[2]):
-                        continuity_list.append(1)
-                        #print(1)
-                    else:
-                        continuity_list.append(0)
-                        #print(0)
-                                                        
-            if len(continuity_list) > 0:
-                continuity = sum(continuity_list)-len(continuity_list)
-                consistency = sum(continuity_list)/len(continuity_list)
-            else:
-                continuity = 0
-                consistency = 0
-            
-            temp_colname = ('continuity_{}').format(runmode)
-            puorf_features[uid][temp_colname] = continuity
-            
-            temp_colname = ('consistency_{}').format(runmode)
-            puorf_features[uid][temp_colname] = consistency
-            
-            #overflow
-            temp_colname = ('initialzation_overflow_{}').format(runmode)
-            # calc upstream 
-            initialzation_overflow = 0
-            for rnt in range(-15, 15+1):
-                if rnt in psite_dict:
-                    initialzation_overflow += psite_dict[rnt]
-            puorf_features[uid][temp_colname] = initialzation_overflow
-            
-            temp_colname = ('puorf_all_overflow_{}').format(runmode)
-            puorf_all_overflow = 0
-            for rnt in psite_dict:
-                puorf_all_overflow += psite_dict[rnt]
-            puorf_features[uid][temp_colname] = puorf_all_overflow
-            
-            if puorf_all_overflow > 0:
-                overflow_weight =  initialzation_inframe * (initialzation_overflow/puorf_all_overflow)
-            else:
-                overflow_weight = 0
+                for vuorf in validated_uorfs:
+                    '''
+                    {'gene': gene,
+                     'start': uORFstart,
+                     'stop': uORFend,
+                     'sign': sign,
+                     'is_uorf': signif,
+                     'source': 'may_2023',
+                     'validated': 'molecular'}
+                    '''
+                    if gene == validated_uorfs[vuorf]['gene']:
+                        is_uorf = validated_uorfs[vuorf]['is_uorf']
+                        #print(is_uorf, type(is_uorf))
+
+
+                        if puorf_features[uid]['_sign'] == '+':
+
+                            if puorf_features[uid]['_left'] == validated_uorfs[vuorf]['start']:
+                                puorf_features[uid]['_is_uorf'] = is_uorf
+                        else:
+                            if puorf_features[uid]['_right'] == validated_uorfs[vuorf]['stop']:
+                                puorf_features[uid]['_is_uorf'] = is_uorf
+
+                psite_dict = relative_puorf_dict[gene][puorf]['psite_dict']
+                puorf_features[uid]['_drop_psite_dict'] = psite_dict
+                                
+                # calc total depth
+                val_sum = 0
+                for rnt in psite_dict:                    
+                    if rnt >= 0:
+                        val_sum += psite_dict[rnt]
+                puorf_features[uid]['puorf_all_frames'] = val_sum
                 
-            temp_colname = ('hscore_{}').format(runmode)
-            hscore = (tis_diff-puorf_body_median) + (init_diff-puorf_body_median) + (puourf_diff*consistency) + (puorf_inframe - puorf_body_all_frames) - (upstream_diff + upstream_all_frames)
-            puorf_features[uid][temp_colname] = hscore
-            
-            temp_colname = ('lscore_{}').format(runmode)
-            lscore = (tis_inframe - puorf_body_median) + (puorf_inframe - puorf_body_median) + overflow_weight + (initialzation_all_frames - puorf_body_all_frames)
-            puorf_features[uid][temp_colname] = lscore
-            '''
-            #
-            '''
-    #todo - minimum pass criteria???
+                # calc total depth inframe
+                val_sum = 0
+                for rnt in psite_dict:                    
+                    if (rnt >= 0) and rnt % 3 == 0:
+                        val_sum += psite_dict[rnt]
+                puorf_features[uid]['puorf_inframe'] = val_sum
+                
+                # calc total depth inframe
+                val_sum = 0
+                for rnt in psite_dict:                    
+                    if (rnt >= 0) and rnt % 3 != 0:
+                        val_sum += psite_dict[rnt]
+                puorf_features[uid]['puorf_outframe'] = val_sum
+                
+                # calc initialzation 
+                psite_body_all_frames = []
+                for rnt in psite_dict:
+                    if rnt >= 13:
+                        if rnt in psite_dict:
+                            psite_body_all_frames.append(psite_dict[rnt])
+                
+                if len(psite_body_all_frames) > 0:            
+                    puorf_features[uid]['puorf_body_all_frames'] = sum(psite_body_all_frames)
+                    puorf_body_all_frames = sum(psite_body_all_frames)
+                                    
+                    puorf_body_median = np.mean([x for x in psite_body_all_frames if x >= 0])
+                    puorf_features[uid]['puorf_body_median'] = puorf_body_median
+                else:
+                    puorf_features[uid]['puorf_body_all_frames'] = 1
+                    puorf_body_all_frames = 1
+                                    
+                    puorf_body_median = 1
+                    puorf_features[uid]['puorf_body_median'] = 1                    
+                                                                
+                # calc initialzation 
+                val_sum = 0
+                for rnt in range(12+1):
+                    if rnt >= 0:
+                        if rnt in psite_dict:
+                            val_sum += psite_dict[rnt]
+                puorf_features[uid]['initialzation_all_frames'] = val_sum
+                
+                # calc initialzation inframe
+                val_sum = 0
+                for rnt in range(12+1):
+                    if (rnt >= 0) and (rnt % 3 == 0):
+                        if rnt in psite_dict:
+                            val_sum += psite_dict[rnt]
+                puorf_features[uid]['initialzation_inframe'] = val_sum
+                
+                # calc initialzation outframe
+                val_sum = 0
+                for rnt in range(12+1):
+                    if (rnt >= 0) and (rnt % 3 != 0):
+                        if rnt in psite_dict:
+                            val_sum += psite_dict[rnt]
+                puorf_features[uid]['initialzation_outframe'] = val_sum
+                
+                # calc TIS
+                val_sum = 0
+                for rnt in range(3+1):
+                    if rnt >= 0:
+                        if rnt in psite_dict:
+                            val_sum += psite_dict[rnt]
+                puorf_features[uid]['tis_all_frames'] = val_sum
+                              
+                # calc TIS inframe
+                val_sum = 0
+                for rnt in set([0]):
+                    val_sum += psite_dict[rnt]
+                puorf_features[uid]['tis_inframe'] = val_sum
+                
+                # calc TIS out of frame
+                val_sum = 0
+                for rnt in range(3+1):
+                    if (rnt >= 0) and (rnt % 3 != 0):
+                        if rnt in psite_dict:
+                            val_sum += psite_dict[rnt]
+                puorf_features[uid]['tis_outframe'] = val_sum
+                
+                # calc upstream 
+                val_sum = 0
+                for rnt in range(-15, 0):
+                    if rnt in psite_dict:
+                        val_sum += psite_dict[rnt]
+                puorf_features[uid]['upstream_all_frames'] = val_sum
+                              
+                # calc upstream inframe
+                val_sum = 0
+                for rnt in range(-15, 0):
+                    if (rnt in psite_dict) and (rnt % 3 == 0):
+                        val_sum += psite_dict[rnt]
+                puorf_features[uid]['upstream_inframe'] = val_sum
+                
+                # calc upstream outframe
+                val_sum = 0
+                for rnt in range(-15, 0):
+                    if (rnt in psite_dict) and (rnt % 3 != 0):
+                        val_sum += psite_dict[rnt]
+                puorf_features[uid]['upstream_outframe'] = val_sum
+                
+                # calc heursitic score
+                tis_inframe = puorf_features[uid]['tis_inframe']
+                tis_outframe = puorf_features[uid]['tis_outframe']
+                tis_diff = (tis_inframe - tis_outframe)
+                puorf_features[uid]['tis_diff'] = tis_diff
+                
+                initialzation_inframe = puorf_features[uid]['initialzation_inframe']
+                initialzation_outframe = puorf_features[uid]['initialzation_outframe']
+                initialzation_all_frames = puorf_features[uid]['initialzation_all_frames']
+                init_diff = (initialzation_inframe - initialzation_outframe)
+                puorf_features[uid]['init_diff'] = init_diff
+
+                upstream_inframe = puorf_features[uid]['upstream_inframe']   
+                upstream_outframe = puorf_features[uid]['upstream_outframe']
+                upstream_diff = (upstream_inframe - upstream_outframe)
+                puorf_features[uid]['upstream_diff'] = upstream_diff
+                upstream_all_frames = puorf_features[uid]['upstream_all_frames']
+                
+                puorf_inframe = puorf_features[uid]['puorf_inframe']
+                puorf_outframe = puorf_features[uid]['puorf_outframe']
+                #puorf_all_frames = puorf_features[uid]['puorf_all_frames']
+                puourf_diff = (puorf_inframe - puorf_outframe)
+                puorf_features[uid]['puourf_diff'] = puourf_diff
+
+                nt_length = abs(relative_puorf_dict[gene][puorf]['right'] - 
+                       relative_puorf_dict[gene][puorf]['left'])
+                puorf_features[uid]['aa_length'] = nt_length/3
+                
+                #continuity
+                continuity_list = []
+                #print(gene, puorf_features[uid]['_chromo'], puorf_features[uid]['_left'], puorf_features[uid]['_right'])
+                #print(psite_dict)
+                
+                for i in range(max(psite_dict)):
+                    codon_start = 0+i*3
+                    codon_stop = 3+i*3
+                    temp_bins = {0:0, 1:0, 2:0}
+                                        
+                    if codon_stop in psite_dict:
+                        for rnt in range(codon_start, codon_stop):
+                            inbin = rnt % 3
+                            val = psite_dict[rnt]
+                            temp_bins[inbin] += val
+                            #print(rnt, inbin, val)
+                                                    
+                        if (temp_bins[0] > temp_bins[1]) and (temp_bins[0] > temp_bins[2]):
+                            continuity_list.append(1)
+                            #print(1)
+                        else:
+                            continuity_list.append(0)
+                            #print(0)
+                                                            
+                if len(continuity_list) > 0:
+                    continuity = sum(continuity_list)-len(continuity_list)
+                    consistency = sum(continuity_list)/len(continuity_list)
+                else:
+                    continuity = 0
+                    consistency = 0
+                
+                puorf_features[uid]['continuity'] = continuity
+                puorf_features[uid]['consistency'] = consistency
+                
+                #overflow
+                # calc upstream 
+                initialzation_overflow = 0
+                for rnt in range(-15, 15+1):
+                    if rnt in psite_dict:
+                        initialzation_overflow += psite_dict[rnt]
+                puorf_features[uid]['initialzation_overflow'] = initialzation_overflow
+                
+                puorf_all_overflow = 0
+                for rnt in psite_dict:
+                    puorf_all_overflow += psite_dict[rnt]
+                puorf_features[uid]['puorf_all_overflow'] = puorf_all_overflow
+                
+                if puorf_all_overflow > 0:
+                    overflow_weight =  initialzation_inframe * (initialzation_overflow/puorf_all_overflow)
+                else:
+                    overflow_weight = 0
+                    
+                hscore = (tis_diff-puorf_body_median) + (init_diff-puorf_body_median) + (puourf_diff*consistency) + (puorf_inframe - puorf_body_all_frames) - (upstream_diff + upstream_all_frames)
+                puorf_features[uid]['hscore'] = hscore
+                
+                lscore = (tis_inframe - puorf_body_median) + (puorf_inframe - puorf_body_median) + overflow_weight + (initialzation_all_frames - puorf_body_all_frames)
+                puorf_features[uid]['lscore'] = lscore
+                '''
+                #
+                '''
+    
     for uid in puorf_features:
         puorf_features[uid]['pass_filter_one'] = True
     
@@ -2636,22 +2680,38 @@ def build_features(puorf_features, relative_puorf_dict, validated_uorfs):
             
             start_codons_by_chromo[chromo].add(start_nt)
                     
-    for runmode in relative_puorf_dict:
-        puorf_features = detect_overflow(puorf_features, start_codons_by_chromo, runmode)
+    puorf_features = detect_overflow(puorf_features, start_codons_by_chromo)
+        
+    for uid in puorf_features:
+        
+        # if puorf_features[uid]['lscore'] > puorf_features[uid]['hscore']:
+        #     puorf_features[uid]['resolved_score'] = puorf_features[uid]['lscore']
+        # else:
+        #     puorf_features[uid]['resolved_score'] = puorf_features[uid]['hscore']
+        
+        if puorf_features[uid]['lump'] == 'lump':
+            reso = puorf_features[uid]['lscore']
+        else:
+            reso = puorf_features[uid]['hscore']
+            
+        puorf_features[uid]['resolved_score'] = reso
+        
+        '''checking
+        gene = puorf_features[uid]['_gene']
+        start = puorf_features[uid]['_right']
+        if (gene == 'YEL009C') and start == 140124: 
+        #if (gene == 'YKR042W'): 
+            print(gene)
+            print(puorf_features[uid])
+            #print('#')
+            #print(relative_puorf_dict[gene])
+            1/0
+        '''
                 
-    return(relative_puorf_dict, puorf_features, validated_uorfs)
+    return(relative_puorf_dict, puorf_features)
 
-def features_to_gff(puorf_features, start_codon_counter, runmode_set, cut_off):
-    temp_outfile = open('{output}_fuck.txt', 'w')
-    temp_outfile.close()
-    
-    # TODO - why are all the FDRs the same?
-    # TODO - Why are no FF's showing up?
-    output = resources_object['output']
-    
-    temp_gff_name = ('{output}_uorf_candidates_{cut_off}.gff').format(output = output, cut_off = cut_off)
-    temp_gff = open(temp_gff_name, 'w')
-    temp_gff.close()
+def features_to_bed(features_dict, start_codon_counter, cut_off):
+    output = resources_dict['output']
     
     cut_off_lookup_dict = {}
     cut_off_lookup = cut_off * 2
@@ -2671,172 +2731,77 @@ def features_to_gff(puorf_features, start_codon_counter, runmode_set, cut_off):
             cut_off_val = fdr_list[int(cut_off_lookup*len(fdr_list))]
             
             cut_off_lookup_dict[is_lump][start_codon] = cut_off_val
-    
-    for runmode in runmode_set:
-        is_uorf_set = set()
-        cm = {'Tt':0, 'Tf': 0, 'Ft': 0, 'Ff': 0, 'T-':0, 'F-':0}
+                        
+    for uid in features_dict:
+        features_dict[uid]['fdr'] = 1
         
-        fdr_colname = ('fdr_{}').format(runmode)
-        lump_colname = ('lump_{}').format(runmode)
-        resolved_score_colname = ('resolved_score_{}').format(runmode)
-        confusion_matrix_colname = ('cm_{}').format(runmode)
-        
-        print('features_to_gff, runmode', runmode)
-        
-        print("starting fdr calc")
-        for uid in puorf_features:
-            '''
-            puorf_features[uid]
+        if features_dict[uid]['pass_filter_one']:
+            is_lump = features_dict[uid]['lump']            
+            start_codon = features_dict[uid]['start_codon']
             
-            '''
-            # if puorf_features[uid]['_gene'] == 'YEL009C':
-                
-            #print(puorf_features[uid]['_puorf'], puorf_features[uid]['_gene'], puorf_features[uid][resolved_score_colname])
-            puorf_features[uid][fdr_colname] = 1
+            rs = features_dict[uid]['resolved_score']
             
-            if puorf_features[uid]['pass_filter_one']:
-                #is_lump = puorf_features[uid][lump_colname]            
-                start_codon = puorf_features[uid]['start_codon']
-                
-                rs = puorf_features[uid][resolved_score_colname]
-                #print(resolved_score_colname, rs)
-                
-                cut_off_val = cut_off_lookup_dict[lump_colname][start_codon]
-                
-                #if rs > cut_off_val:
-                fdr_list = start_codon_counter[lump_colname][start_codon]
+            cut_off_val = cut_off_lookup_dict[is_lump][start_codon]
+            
+            if rs > cut_off_val:
+            
+                fdr_list = start_codon_counter[is_lump][start_codon]
                 
                 numer = len([fdrs for fdrs in fdr_list if fdrs > rs])
                 fdr_val = numer/len(fdr_list)
                 
-                puorf_features[uid][fdr_colname] = fdr_val                    
-                                        
-                #else:
-                #    puorf_features[uid][fdr_colname] = cut_off_lookup
-
-            
-            #print("starting cm definition")
-            #if '_is_uorf' not in puorf_features[uid]:
-                #print(uid, puorf_features[uid])
-            
-            if '_is_uorf' in puorf_features[uid]:
-                val = puorf_features[uid]['_is_uorf']
-                is_uorf_set.add(val)
-                            
-                temp_outfile = open('{output}_fuck.txt', 'a')
-                outline = ('{}\n').format(val)
-                temp_outfile.write(outline)
-                temp_outfile.close()         
+                features_dict[uid]['fdr'] = fdr_val
                 
-                is_uorf = puorf_features[uid]['_is_uorf']
-                is_uorf = is_uorf.upper() 
+                #print(uid, rs, cut_off_val, fdr_val)
                 
-                if (is_uorf == "TRUE") or (is_uorf == "FALSE"):
-                    if puorf_features[uid][fdr_colname] <= cut_off:
-                        if is_uorf == "TRUE":
-                            cm['Tt'] += 1 
-                            puorf_features[uid][confusion_matrix_colname] = 'Tt'
-                        if is_uorf == "FALSE":
-                            cm['Tf'] += 1
-                            puorf_features[uid][confusion_matrix_colname] = 'Tf'
-                            
-                    if puorf_features[uid][fdr_colname] > cut_off:
-                        if is_uorf == "TRUE":
-                            cm['Ft'] += 1 
-                            puorf_features[uid][confusion_matrix_colname] = 'Ft'
-                        if is_uorf == "FALSE":
-                            cm['Ff'] += 1
-                            puorf_features[uid][confusion_matrix_colname] = 'Ff'
-                            
-                # TODO - is this working in the prediction stage?
-                else:
-                    # if not validated ('_is_uorf') and within consideration
-                    if (puorf_features[uid][fdr_colname] <= cut_off * 2):
-                        puorf_features[uid][confusion_matrix_colname] = 'T-'
-                        cm['T-'] += 1
-                        
-                    # if not validated ('_is_uorf') and beyond consideration
-                    if (puorf_features[uid][fdr_colname] > cut_off *2 ):
-                        puorf_features[uid][confusion_matrix_colname] = 'F-'
-                        cm['F-'] += 1
             else:
-                puorf_features[uid][confusion_matrix_colname] = '--'
-                            
-        print('runmode', runmode)
-        print(confusion_matrix_colname)
-        print(cm)
+                features_dict[uid]['fdr'] = cut_off_lookup
+
+    cm = {'Tt':0, 'Tf': 0, 'Ft': 0, 'Ff': 0}
+    for uid in features_dict:
+        features_dict[uid]['cm']='xx'
         
-        temp_gff = open(temp_gff_name, 'a')
+        if '_is_uorf' in features_dict[uid]:
+            #if features_dict[uid]['pass_filter_one']:
+                if features_dict[uid]['fdr'] <= cut_off:
+                    if features_dict[uid]['_is_uorf']:
+                        cm['Tt'] += 1 
+                        features_dict[uid]['cm']='Tt'
+                    else:
+                        cm['Tf'] += 1
+                        features_dict[uid]['cm']='Tf'
+                else:
+                    if features_dict[uid]['_is_uorf']:
+                        cm['Ft'] += 1 
+                        features_dict[uid]['cm']='Ft'
+                    else:
+                        cm['Ff'] += 1
+                        features_dict[uid]['cm']='Ff'
+
+    print(cm)
     
-        for uid in puorf_features:
-            fdr = puorf_features[uid][fdr_colname]
-            
-            if fdr < cut_off_lookup:
-                #pfo = puorf_features[uid]['pass_filter_one']
-                
-                chromo = puorf_features[uid]['_chromo']
-                left = puorf_features[uid]['_left']
-                right = puorf_features[uid]['_right']
-                gene = puorf_features[uid]['_gene']
-                sign = puorf_features[uid]['_sign']
-                if '_is_uorf' in puorf_features[uid]:
-                    is_uorf = puorf_features[uid]['_is_uorf'] + '_' + str(fdr)
-                else:
-                    is_uorf = 'xx_' + str(fdr)
-                
-                start_codon = puorf_features[uid]['start_codon']
-                stop_codon = puorf_features[uid]['stop_codon']
-                status = puorf_features[uid]['status']
-                
-                lump = puorf_features[uid][lump_colname]
-                rs = puorf_features[uid][resolved_score_colname]
-                cm = puorf_features[uid][confusion_matrix_colname]
-                
-                if sign == '+':
-                    name = ('{}.{}_{}').format(gene, left, runmode)
-                    
-                else:
-                    name = ('{}.{}_{}').format(gene, right, runmode)
-                
-                left_mod = 0
-                right_mod = 0
-                
-                outline = ('{chromo}\tcandidate_orf\t{cm}\t{left}\t{right}\t.\t{sign}\t.\t'
-                        'ID={name};Parent={gene};TIS_type={lump};'
-                        'aTIS={start_codon};Stop={stop_codon};status={status};is_uORF={is_uorf};\n').format(
-                            chromo = chromo, 
-                            cm = cm, 
-                            left = left + left_mod, right = right + right_mod, sign = sign, 
-                            name = name, is_uorf = is_uorf, gene = gene, lump = lump,
-                            start_codon = start_codon, stop_codon = stop_codon, status = status)
-                
-                temp_gff.write(outline)
-        temp_gff.close()
+    temp_bed_name = ('{output}_temp_{cut_off}.bed').format(output = output, cut_off = cut_off)
+    temp_bed = open(temp_bed_name, 'w')
+    
+    for uid in features_dict:
+        fdr = features_dict[uid]['fdr']
+        pfo = features_dict[uid]['pass_filter_one']
         
-        # now that there is a set of uids that behave poorly what happens if we remove them?
-        remove_uid_set = set()
-        
-        for uid in puorf_features:
-            cm = puorf_features[uid][confusion_matrix_colname]
+        if (features_dict[uid]['cm'] != 'xx'):            
+            outline = ('{chromo}\t{left}\t{right}\t{name}.{left}.{right}.{lump}.{pfo}.{cm}\t{fdr}\n').format(
+                chromo = features_dict[uid]['_chromo'],
+                left = features_dict[uid]['_left']-1,
+                right = features_dict[uid]['_right'],
+                name = features_dict[uid]['_gene'],
+                lump = puorf_features[uid]['lump'],
+                pfo = pfo,
+                cm = features_dict[uid]['cm'],
+                fdr = fdr)
+            temp_bed.write(outline)
             
-            if (cm == 'F-') or (cm == '--'):
-                remove_uid_set.add(uid)
-        
-        for uid in remove_uid_set:
-            del puorf_features[uid]
-            
-    for uid in puorf_features:
-        for runmode in runmode_set:
-            confusion_matrix_colname = ('cm_{}').format(runmode)
-            cm = puorf_features[uid][confusion_matrix_colname]
-            
-            if 'cm' not in puorf_features[uid]:
-                puorf_features[uid]['cm'] = '--'
-                
-            if (cm == 'Tt') or (cm == 'Ff'):
-                puorf_features[uid]['cm'] = cm
-                
-    return(cut_off_lookup_dict, puorf_features)
+    temp_bed.close()
+    
+    return(cut_off_lookup_dict)
 
 def predictions_to_bed(features_dict, cut_off):
     run_name = args.run_name
@@ -2894,83 +2859,7 @@ def predictions_to_bed(features_dict, cut_off):
             temp_bed.write(outline)
             
     temp_bed.close()
-    
-def make_missing_validated_uorf_gff(validated_uorfs, fa_dict, coord_dict):
-        
-    genome_gff_object = resources_object['genome_gff_object']
-    missing_gff_object = genome_gff_object.split('.gff')[0] + '_missing.gff'
-    gff_file = open(missing_gff_object, 'w')
-    
-    alphabet_to_chromo = {'A':'I', 'B':'II', 'C':'III', 'D':'IV', 'E':'V',
-                          'F':'VI', 'G':'VII', 'H':'VIII', 'I':'IX', 'J':'X',
-                          'K':'XI', 'L':'XII', 'M':'XIII', 'N':'XIV', 'O':'XV',
-                          'P':'XVI'}
-    
-    no_match_ct = 0 
-    
-    for uorf in validated_uorfs:
-        if not validated_uorfs[uorf]['matched']:
-            no_match_ct += 1
-            gene = validated_uorfs[uorf]['gene']
-            chr_alphabet = gene[1]
-            chromo = alphabet_to_chromo[chr_alphabet]
             
-            source = validated_uorfs[uorf]['source']
-            
-            if chromo not in fa_dict:
-                print(gene, chr_alphabet, chromo)
-                1/0
-            
-            else:
-                sign = validated_uorfs[uorf]['sign']
-                print(validated_uorfs[uorf])
-                
-                if sign == '+':
-                    given_start = validated_uorfs[uorf]['start']
-                    
-                    left = validated_uorfs[uorf]['start']
-                    right = validated_uorfs[uorf]['stop']
-                    
-                    # if right == 'oORF':
-                    #     right = left+2   
-                        
-                    start_codon = fa_dict[chromo][left:right]
-                    
-                    range_start = validated_uorfs[uorf]['start']-3
-                    range_stop = validated_uorfs[uorf]['start']+3
-                    
-                    range_seq = fa_dict[chromo][range_start:range_stop+1]
-                    
-                else:
-                    given_start = validated_uorfs[uorf]['stop']
-                    
-                    right = validated_uorfs[uorf]['stop']
-                    left = validated_uorfs[uorf]['start']
-                    
-                    # if left == 'oORF':
-                    #     left = right+2     
-                        
-                    start_codon = reverse_complement(fa_dict[chromo][left:right])
-                                       
-                    range_start = validated_uorfs[uorf]['stop']-3
-                    range_stop = validated_uorfs[uorf]['stop']+3
-                    
-                    range_seq = reverse_complement(fa_dict[chromo][range_start:range_stop+1])
-                
-                name = ('{gene}_{given_start}').format(gene = gene, given_start = given_start)    
-                
-                outline = ('{chromo}\tcue_orf\tuORF\t{left}\t{right}\t.\t{sign}\t.\t'
-                           'ID={name}_uORF;Parent={gene};Source={source};aTIS={start_codon};flank_seq={range_seq}\n').format(
-                               chromo = chromo, left = left, right = right, sign = sign, 
-                               name = name, gene = gene, source = source,
-                               start_codon = start_codon, range_seq = range_seq)
-                gff_file.write(outline)
-            
-    gff_file.close()
-                
-    
-    print(no_match_ct)
-
 # Define model
 # for torch
 class zagreus(nn.Module):
@@ -3003,7 +2892,7 @@ class zagreus(nn.Module):
 '''
 
 #step 1 - make resource object
-resources_object = parse_resource_object()
+resources_dict = parse_resource_object()
 
 if args.build_genome_object:
     print('Building genome object ...')
@@ -3011,7 +2900,7 @@ if args.build_genome_object:
     fa_dict, coord_dict = make_TL_fasta()
     puorf_dict = demarcate_regions(fa_dict, coord_dict)
     
-    genome_object = resources_object['genome_object']
+    genome_object = resources_dict['genome_object']
     puorf_file = open(genome_object, 'wb')
     pickle.dump(puorf_dict, puorf_file)
     
@@ -3019,15 +2908,13 @@ if args.build_genome_object:
     print(outline)
     
 if args.parse_read_object:
-    sam_filename = resources_object['sam_filename']
+    sam_filename = resources_dict['sam_filename']
     run_name = args.run_name
     
     outline = ('Parsing RPF sam file(s): {}').format(sam_filename)
     print(outline)
     
-    # rpf_dict = {}
-    # bedgraph_dict = {'+':{},
-    #                  '-':{}}
+    bedgraph_set = set()
     
     # TODO make data type CLI
     # TODO this is being overwrote latter
@@ -3038,23 +2925,29 @@ if args.parse_read_object:
         sam_filename_list = sam_filename.split(',')
         for each_sam_filename in sam_filename_list:
             each_sam_filename = each_sam_filename.strip()
-            sample_read_object = parse_reads(sample_read_object, each_sam_filename)
+            sample_read_object, bedgraph_set = parse_reads(sample_read_object, each_sam_filename, bedgraph_set)
             
     else:
-        sample_read_object = parse_reads(sample_read_object, sam_filename)
+        sample_read_object, bedgraph_set = parse_reads(sample_read_object, sam_filename, bedgraph_set)
+        
+    print(resources_dict)
     
-    print(resources_object)
+    print('bedgraph_set', bedgraph_set)
     
-    read_object_filename = resources_object['read_object']
-    read_object_file = open(read_object_filename, 'wb')
-    pickle.dump(sample_read_object, read_object_file)
+    bedgraph_filenames = resources_dict['bedgraph_filenames']
+    bedgraph_file = open(bedgraph_filenames, 'wb')
+    pickle.dump(bedgraph_set, bedgraph_file)
     
-    # bedgraph_filenames = resources_object['bedgraph_filenames']
+    # read_object_filename = resources_dict['read_object']
+    # read_object_file = open(read_object_filename, 'wb')
+    # pickle.dump(sample_read_object, read_object_file)
+    
+    #resources_dict['bedgraph_filenames'].append(psite_bedgraph_name)
     # bedgraph_filenames_file = open(bedgraph_filenames, 'wb')
     # pickle.dump(bedgraph_dict, bedgraph_filenames_file)
         
-    outline = ('Completed read object: {}').format(read_object_filename)
-    print(outline)
+    # outline = ('Completed read object: {}').format(read_object_filename)
+    # print(outline)
     
     # print('The following bedgraphs were generated:\n')
     # for sign in bedgraph_dict:
@@ -3064,106 +2957,69 @@ if args.parse_read_object:
     #         print(outline)
     
 if args.build_features_object:
-    
     outline = ("Beginning to build and score features...")
     print(outline)
     
-    genome_object = resources_object['genome_object']
+    #TODO fuck - this needs to be a list
+    psite_bedgraph_names = resources_dict['bedgraph_filenames']
+    
+    bedgraph_filenames = resources_dict['bedgraph_filenames']
+    bedgraph_file = open(bedgraph_filenames, 'rb')
+    bedgraph_set = pickle.load(bedgraph_file)
+    print('bedgraph_set', bedgraph_set)
+    
+    genome_object = resources_dict['genome_object']
     puorf_file = open(genome_object, 'rb')
     puorf_dict = pickle.load(puorf_file)
-        
-    '''
-    load read object for RPF data - this should be resolved to psites by 
-    '''
-    #psite_object = load_psite_object()
-    psite_object = load_psite_object_v2()            
-    relative_puorf_dict = strand_agnostic(puorf_dict, psite_object)
     
-    # Check if "known" uorf_gff is available, if so load.
-    parse_uorf_object = resources_object['parse_uorf_object']
+    parse_uorf_object = resources_dict['parse_uorf_object']
     
     if parse_uorf_object:
-        validated_uorfs = parse_gff_uorf()                    
+        #validated_uorfs = parse_uorf()
+        validated_uorfs = parse_gff_uorf()
     else:
         print('... skipping validated uORFs')
         validated_uorfs = set()
+        
+    psite_object = {'+':{},
+                    '-':{}}
+    for psite_bedgraph_name in bedgraph_set:
+        psite_object = load_psite_object(psite_bedgraph_name, psite_object)
     
-    # Now using the psite
+    relative_puorf_dict = strand_agnostic(puorf_dict, psite_object)
+    
     puorf_features = {}
-    relative_puorf_dict, puorf_features, validated_uorfs = build_features(puorf_features, relative_puorf_dict, validated_uorfs)
+    relative_puorf_dict, puorf_features = build_features(puorf_features, relative_puorf_dict, validated_uorfs)
     
-    runmode_set = set()
-    for runmode in relative_puorf_dict:
-        runmode_set.add(runmode)
+    fa_dict, coord_dict = make_TL_fasta()
+    start_codon_counter = calculate_scramble_pval(fa_dict, coord_dict)
     
     # using the scramble as a fdr calc and set the qc
-    fa_dict, coord_dict = make_TL_fasta()
-    start_codon_counter = calculate_scramble_pval(fa_dict, coord_dict, relative_puorf_dict)
-    
-    # temp_file_name = ('C:/Gresham/tiny_projects/quorf/DGY1657_rep11/_start_codon_counter.p')
-    # temp_file = open(temp_file_name, 'wb')
-    # pickle.dump(start_codon_counter, temp_file)
-        
-    # for lump_mode in start_codon_counter:
-    #     for start_codon in start_codon_counter[lump_mode]:
-    #         start_codon_list = start_codon_counter[lump_mode][start_codon]
-            
-            
-    #         temp_file_name = ('C:/Gresham/tiny_projects/quorf/DGY1657_rep11/_{lump_mode}_{start_codon}_values_.csv').format(
-    #             lump_mode = lump_mode, start_codon = start_codon)
-    #         temp_file = open(temp_file_name, 'w')
-            
-    #         for each in start_codon_list:
-    #             outline = ('{}\n').format(each)
-    #             temp_file.write(outline)
-                
-    #         temp_file.close()
-    
-    # FUCK
-    # temp_file_name = ('C:/Gresham/tiny_projects/quorf/DGY1657_rep11/_puorf_features.p')
-    # temp_file = open(temp_file_name, 'wb')
-    # pickle.dump(puorf_features, temp_file)
-    
-    # FUCK
-    cut_off_lookup_dict, puorf_features = features_to_gff(puorf_features, start_codon_counter, runmode_set, 0.5)
-    
-    # what validated uorfs were missed?
-    print(make_missing_validated_uorf_gff)
-    make_missing_validated_uorf_gff(validated_uorfs, fa_dict, coord_dict)
+    cut_off_lookup_dict = features_to_bed(puorf_features, start_codon_counter, 0.05)
 
-    features_object_filename = resources_object['features_object_filename']
+    features_object_filename = resources_dict['features_object_filename']
     df = pd.DataFrame.from_dict(puorf_features, orient='index')
-    df = df.loc[(df['status'] == 'candidate')]
+    df = df.drop(columns = ['_drop_psite_dict'])
     df.to_csv(features_object_filename, index=False)
-        
+    
     #puorf_features
     '''
     # here we're going to clean up the feature df to strip out the columns that would ruin the ML training loop
     '''
-    # Filter dubious orfs before training 
-    #df = df.loc[(df['status'] == 'candidate')]
-    
-    print(df.head())
-    
-    filter_list_to_drop = ['_puorf', '_gene', '_is_uorf', '_chromo',
+    train_object_features_filename = resources_dict['train_object_features']
+    train_test_df = df.loc[(df['cm'] == 'Tt') | (df['cm'] == 'Ff') | (df['cm'] == 'Sf')]
+    train_test_df = train_test_df.replace({'Ff': 0, 'Sf':0, 'Tt': 1})
+    train_test_df = train_test_df.drop(columns = ['_puorf', '_gene', '_is_uorf', '_chromo',
                                        '_left', '_right', '_sign', '_mask_stop', 
-                                       'start_codon','stop_codon', 'status', 'pass_filter_one']
-    
-    for feature in set(['hscore', 'lscore', 'lump', 'another_option', 'resolved_score',
-                        'fdr', '_drop_psite_dict', 'cm']):
-        for runmode in runmode_set:
-            feature_colname = ('{feature}_{runmode}').format(feature = feature, runmode = runmode)
-            filter_list_to_drop.append(feature_colname)
-        
-    train_object_features_filename = resources_object['train_object_features']
-    train_test_df = df.loc[(df['cm'] == 'Tt') | (df['cm'] == 'Ff')]
-    train_test_df = train_test_df.replace({'Ff': 0, 'Tt': 1})
-    train_test_df = train_test_df.drop(columns = filter_list_to_drop)
+                                       'start_codon', 'hscore', 'lscore', 'pass_filter_one',
+                                       'lump', 'another_option', 'resolved_score', 'fdr'])
     train_test_df.to_csv(train_object_features_filename, header = False)
     #
-        
-    predict_object_features_filename = resources_object['predict_object_features']
-    predict_df = df.drop(columns = ['cm'])
+    predict_object_features_filename = resources_dict['predict_object_features']
+    predict_df = df.drop(columns = ['_puorf', '_gene', '_is_uorf', '_chromo',
+                                       '_left', '_right', '_sign', '_mask_stop',
+                                       'start_codon', 'hscore', 'lscore', 'pass_filter_one',
+                                       'lump', 'another_option', 'resolved_score', 'fdr', 'cm'])
     predict_df.to_csv(predict_object_features_filename, header = False)
     
     outline = ("Features built and scored:\n"
@@ -3174,87 +3030,24 @@ if args.build_features_object:
                    train_object_features_filename = train_object_features_filename,
                    predict_object_features_filename = predict_object_features_filename)
     print(outline)
-
-if args.modify_feature_object:    
-    # TODO clean up to resource
-    runmode_set = set(["multiple", "singular", "fraction", "asite"])
-    
-    print("modify_feature_object")
-    
-    features_object_filename = resources_object['features_object_filename']
-    # df = pd.DataFrame.from_dict(puorf_features, orient='index')
-    # #df = df.drop(columns = ['_drop_psite_dict'])
-    # df.to_csv(features_object_filename, index=False)
-    
-    df = pd.read_csv(features_object_filename)
-    print(df.head())
-    #puorf_features
-    '''
-    # here we're going to clean up the feature df to strip out the columns that would ruin the ML training loop
-    '''
-    # Filter dubious orfs before training 
-    df = df.loc[(df['status'] == 'candidate')]
-    
-    print(df.head())
-    
-    filter_list_to_drop = ['_puorf', '_gene', '_is_uorf', '_chromo',
-                                       '_left', '_right', '_sign', '_mask_stop', 
-                                       'start_codon','stop_codon', 'status', 'pass_filter_one']
-    
-    for feature in set(['hscore', 'lscore', 'lump', 'another_option', 'resolved_score',
-                        'fdr', '_drop_psite_dict', 'cm']):
-        for runmode in runmode_set:
-            feature_colname = ('{feature}_{runmode}').format(feature = feature, runmode = runmode)
-            filter_list_to_drop.append(feature_colname)
-        
-    train_object_features_filename = resources_object['train_object_features']
-    train_test_df = df.loc[(df['cm'] == 'Tt') | (df['cm'] == 'Ff')]
-    train_test_df = train_test_df.replace({'Ff': 0, 'Tt': 1})
-    train_test_df = train_test_df.drop(columns = filter_list_to_drop)
-    train_test_df.to_csv(train_object_features_filename, header = False)
-    #
-    
-    # for feature in set(['cm']):
-    #     for runmode in runmode_set:
-    #         feature_colname = ('{feature}_{runmode}').format(feature = feature, runmode = runmode)
-    #         filter_list_to_drop.append(feature_colname)
-    
-    predict_object_features_filename = resources_object['predict_object_features']
-    predict_df = df.drop(columns = filter_list_to_drop)
-    predict_df.to_csv(predict_object_features_filename, header = False)
-    
-    outline = ("Features built and scored:\n"
-               "\tFeatures with fdr scores: {features_object_filename}\n"
-               "\tCandidate uORF object for model training: {train_object_features_filename}\n"
-               "\tCandidate uORF object for prediction: {predict_object_features_filename}").format(
-                   features_object_filename = features_object_filename,
-                   train_object_features_filename = train_object_features_filename,
-                   predict_object_features_filename = predict_object_features_filename)
-    print(outline)
-
 
 # for torch
-if args.train_model:
-    print("train_model")    
-    train_object_features_filename = resources_object['train_object_features']
-    
-    print(train_object_features_filename)
-    
-    dnn_model_filename = resources_object['dnn_model_filename']
+if args.train_model:    
+    train_object_features_filename = resources_dict['train_object_features']
+    dnn_model_filename = resources_dict['dnn_model_filename']
     
     outline = ('Training model on {}').format(train_object_features_filename)
     print(outline)
         
     # Read data
     data = pd.read_csv(train_object_features_filename, header=None)
-    X = data.iloc[:, 0:-1]
+    X = data.iloc[:, 1:-1]
     y = data.iloc[:, -1]
-        
-    print(X.head())
+    
     # Binary encoding of labels
-    # encoder = LabelEncoder()
-    # encoder.fit(y)
-    # y = encoder.transform(y)
+    encoder = LabelEncoder()
+    encoder.fit(y)
+    y = encoder.transform(y)
     
     # Convert to 2D PyTorch tensors
     X = torch.tensor(X.values, dtype=torch.float32)
@@ -3317,7 +3110,6 @@ if args.train_model:
     # define 5-fold cross validation test harness
     kfold = StratifiedKFold(n_splits=5, shuffle=True)
     cv_scores_deep = []
-    
     for train, test in kfold.split(X_train, y_train):
         # create model, train, and get accuracy
         model = zagreus()
@@ -3327,7 +3119,6 @@ if args.train_model:
     
     deep_acc = np.mean(cv_scores_deep)
     deep_std = np.std(cv_scores_deep)
-    
     print("Deep: %.2f%% (+/- %.2f%%)" % (deep_acc*100, deep_std*100))
     
     # rebuild model with full set of training data
@@ -3352,33 +3143,23 @@ if args.train_model:
 if args.predict:
             
     # Read data
-    predict_object_features_filename = resources_object['predict_object_features']
-    features_object_filename = resources_object['features_object_filename']
-    cutoff = float(resources_object['prediction_cutoff'])
+    predict_object_features_filename = resources_dict['predict_object_features']
+    features_object_filename = resources_dict['features_object_filename']
+    cutoff = float(resources_dict['prediction_cutoff'])
     run_name = args.run_name
     
     outline = ('Model performing predictions on {}').format(predict_object_features_filename)
     print(outline)
         
     data = pd.read_csv(predict_object_features_filename, header=None)
-    print(data.head(), 'data', data.shape)
-    #modify
     index = data.iloc[:, 0]
-    print(index.head(), 'index', index.shape)
-    X = data.iloc[:, 1:-1]
-    # print(data.head())
+    X = data.iloc[:, 1:]
     
-    
-    # print(index.head())
-    # #X = data.iloc[:, 1:]
-        
-    print(X.head(), 'X',  X.shape)
     predict = torch.tensor(X.values, dtype=torch.float32)
     
     n_inputs = predict.size()[1]
-    print('n_inputs = X.size()[1]', n_inputs)
     
-    dnn_model_filename = resources_object['dnn_model_filename']
+    dnn_model_filename = resources_dict['dnn_model_filename']
     model = zagreus()
     model.load_state_dict(torch.load(dnn_model_filename))
     model.eval()
@@ -3388,11 +3169,6 @@ if args.predict:
     isitarray=results.detach().numpy()
     
     features_df = pd.read_csv(features_object_filename)
-    print("features_df", features_df, features_df.shape)
-    # Filter dubious orfs before training 
-    features_df = features_df.loc[(features_df['status'] == 'candidate')]
-    
-    print("features_df", features_df, features_df.shape)
     features_df['predict'] = isitarray
     
     results_file_name = ('{run_name}/{run_name}_predictions.csv').format(run_name = run_name)
@@ -3514,82 +3290,3 @@ if args.run_analysis:
                        run_name = run_name)
     print(bashCommand)
     subprocess.run([bashCommand],stderr=subprocess.STDOUT,shell=True)
-        
-
-
-# predictions_filename = ('C:/Gresham/tiny_projects/uorfish/test/test_predictions.csv')
-
-# df = pd.read_csv(predictions_filename)
-    
-# predictions = df.to_dict('index')
-
-# #maximize_cm = {'Tt':0, 'Tf': 0, 'Ft': 0, 'Ff': 0}
-# max_score = -1*np.inf
-# score_list = []
-# opt_threshold = 0
-
-# for i in range(0,101):
-#     threshold = i/100
-#     maximize_cm = {'Tt':0, 'Tf': 0, 'Ft': 0, 'Ff': 0}
-    
-#     for puorf in predictions:
-#         if predictions[puorf]['cm'] != 'xx':
-#             if predictions[puorf]['predict'] >= threshold:
-#                 if predictions[puorf]['_is_uorf']:
-#                     maximize_cm['Tt'] += 1
-#                 else:
-#                     maximize_cm['Tf'] += 1
-#             else:
-#                 if predictions[puorf]['_is_uorf']:
-#                     maximize_cm['Ft'] += 1
-#                 else:
-#                     maximize_cm['Ff'] += 1
-#     tpr = maximize_cm['Tt']/(maximize_cm['Tt'] + maximize_cm['Ft'])
-#     fpr = maximize_cm['Tf']/(maximize_cm['Ff'] + maximize_cm['Tf'])
-#     score =  tpr / fpr
-#     score_list.append(score)
-    
-#     #score = -1* (maximize_cm['Ft'] + maximize_cm['Tf'])
-    
-#     if score >= max_score:
-#         print(threshold, score, maximize_cm)
-#         max_score = score
-#         opt_threshold = threshold
-        
-# from numpy import trapz
-
-
-# # The y values.  A numpy array is used here,
-# # but a python list could also be used.
-# y = np.array(score_list)
-
-# # Compute the area using the composite trapezoidal rule.
-# area = trapz(y, dx=1)
-# print("area =", area)
-
-# fa_dict, coord_dict = make_TL_fasta()
-
-# def load_fasta():
-#     fa_dict = {}
-#     fa_file = open('demo/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa')
-    
-#     for line in fa_file:
-#         if line[0] != '#':
-#             line = line.strip()
-        
-#             if line[0] == '>':
-#                 chromo = line.split('>')[1].split(' ')[0]
-#                 if chromo not in fa_dict:
-#                     fa_dict[chromo] = ''
-                        
-#             else:
-#                 fa_dict[chromo]+=line
-            
-#     fa_file.close()  
-    
-#     return(fa_dict, coord_dict)
-
-# puorf_dict = demarcate_regions(fa_dict, coord_dict)
-
-
-
