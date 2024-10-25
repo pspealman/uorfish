@@ -8,8 +8,7 @@ v0.9
 _x_ fix final bed output
 _x_ output cutoff
 _x_ fix load_psite_object
-___ one line command
-    _x_ ui text for stage completion
+
 
 v0.14
 _x_ added 40s sub calling
@@ -25,7 +24,19 @@ v1.1 (boaconic):
     #code
         _x_ change validated_uorfs input to gff
         _x_ add p_site_toggle
-    
+        
+    ___ one line command
+        _x_ ui text for stage completion
+
+v1.2 (saz)
+    #metadata release
+        _x_ tested for non-start TIS in gff
+        _x_ corrected ~150 coordinate misannotations
+
+v1.3 (canitingers)
+    _x_ improved peak distribution 
+    _x_ highqc variable
+
 future versions
     ___ qc predictions co-ordinates
     ___ prefilter predictions for near-AUG
@@ -33,6 +44,7 @@ future versions
     ___ clean up load_psite_object
     ___ add multiple p_site determinations
     ___ add RNA input
+    ___ multiple initialzation ramp feature types - eg 3, 4, 5 (10.1038/s41467-019-13810-1), not just 4
         
 ###
 Design notes:
@@ -43,10 +55,10 @@ Design notes:
 
 '''
 'xx' = unevaluated
-'TT' = True positive
-'Tf' = False positive
-'Ft' = False negative
-'Ff' = True negative
+'TT' = True positive | True and in training data
+'Tf' = False positive | True but not in training data
+'Ft' = False negative | False and in training data
+'Ff' = True negative | False and not in training data
 
 if features_dict[uid]['fdr'] <= cut_off:
     if features_dict[uid]['_is_uorf']:
@@ -67,84 +79,12 @@ else:
 
 """
 
-python uorfish.py -name sanity_check -config
-python uorfish.py -name sanity_check -genome
-python uorfish.py -name sanity_check -read -sam C:/Gresham/2023_09_11_Project_Carolino/analyses/sam/RPF_DGY1657_R1.sorted.sam
-python uorfish.py -name sanity_check -features -known
-python uorfish.py -name sanity_check -train
-python uorfish.py -name sanity_check -predict
-
-python uorfish.py -name sanity_check_2 -config
-python uorfish.py -name sanity_check_2 -genome
-python uorfish.py -name sanity_check_2 -read -sam C:/Gresham/2023_09_11_Project_Carolino/analyses/sam/RPF_DGY1657_R1.sorted.sam
-python uorfish.py -name sanity_check_2 -features -known
-python uorfish.py -name sanity_check_2 -train
-python uorfish.py -name sanity_check_2 -predict
-
-python uorfish.py -name sanity_check_3 -config
-python uorfish.py -name sanity_check_3 -genome
-python uorfish.py -name sanity_check_3 -read -sam C:/Gresham/2023_09_11_Project_Carolino/analyses/sam/RPF_DGY1657_R1.sorted.sam
-python uorfish.py -name sanity_check_3 -features -known
-python uorfish.py -name sanity_check_3 -train
-python uorfish.py -name sanity_check_3 -predict
-
 python uorfish.py -name DGY1657_rep1 -config
 python uorfish.py -name DGY1657_rep1 -genome
-python uorfish.py -name DGY1657_rep1 -read -sam C:/Gresham/2023_09_11_Project_Carolino/analyses/sam/RPF_DGY1657_R1.sorted.sam
+python uorfish.py -name DGY1657_rep1 -read -sam C:/Gresham/Project_Carolino/MBE_Review_materials/sam/RPF_DGY1657_R1.sorted.sam
 python uorfish.py -name DGY1657_rep1 -features -known
 python uorfish.py -name DGY1657_rep1 -train
 python uorfish.py -name DGY1657_rep1 -predict
-
-python uorfish.py -name DGY1657_rep2 -config
-python uorfish.py -name DGY1657_rep2 -genome
-python uorfish.py -name DGY1657_rep2 -read -sam C:/Gresham/2023_09_11_Project_Carolino/analyses/sam/RPF_DGY1657_R2.sorted.sam
-python uorfish.py -name DGY1657_rep2 -features -known
-python uorfish.py -name DGY1657_rep2 -train
-python uorfish.py -name DGY1657_rep2 -predict
-
-python uorfish.py -name Ned_rep1 -config
-python uorfish.py -name Ned_rep1 -genome
-python uorfish.py -name Ned_rep1 -read -sam C:/Gresham/Presentations/2024_CSHL_Translation/Nedialkova/WT_RPF_rapamycin_rep1.sorted.sam
-python uorfish.py -name Ned_rep1 -features -known
-python uorfish.py -name Ned_rep1 -train
-python uorfish.py -name Ned_rep1 -predict
-
-python uorfish.py -name Ned_rep2 -config
-python uorfish.py -name Ned_rep2 -genome
-python uorfish.py -name Ned_rep2 -read -sam C:/Gresham/Presentations/2024_CSHL_Translation/Nedialkova/WT_RPF_rapamycin_rep2.sorted.sam
-python uorfish.py -name Ned_rep2 -features -known
-python uorfish.py -name Ned_rep2 -train
-python uorfish.py -name Ned_rep2 -predict
-
-python uorfish.py -name Ned_rep3 -config
-python uorfish.py -name Ned_rep3 -genome
-python uorfish.py -name Ned_rep3 -read -sam C:/Gresham/Presentations/2024_CSHL_Translation/Nedialkova/WT_RPF_rapamycin_rep3.sorted.sam
-python uorfish.py -name Ned_rep3 -features -known
-python uorfish.py -name Ned_rep3 -train
-python uorfish.py -name Ned_rep3 -predict
-
-python uorfish.py -name NP_rep1 -config
-python uorfish.py -name NP_rep1 -genome
-python uorfish.py -name NP_rep1 -read -sam C:/Gresham/Presentations/2024_CSHL_Translation/Nedialkova/WT_RPF_YPD_rep1.sam
-python uorfish.py -name NP_rep1 -features -known
-python uorfish.py -name NP_rep1 -train
-python uorfish.py -name NP_rep1 -predict
-
-python uorfish.py -name NP_rep2 -config
-python uorfish.py -name NP_rep2 -genome
-python uorfish.py -name NP_rep2 -read -sam C:/Gresham/Presentations/2024_CSHL_Translation/Nedialkova/WT_RPF_YPD_rep2.sam
-python uorfish.py -name NP_rep2 -features -known
-python uorfish.py -name NP_rep2 -train
-python uorfish.py -name NP_rep2 -predict
-
-python uorfish.py -name NP_rep3 -config
-python uorfish.py -name NP_rep3 -genome
-python uorfish.py -name NP_rep3 -read -sam C:/Gresham/Presentations/2024_CSHL_Translation/Nedialkova/WT_RPF_YPD_rep3.sam
-python uorfish.py -name NP_rep3 -features -known
-python uorfish.py -name NP_rep3 -train
-python uorfish.py -name NP_rep3 -predict
-
-
 
 @author: Pieter Spealman, pspealman@nyu.edu
 """
@@ -202,7 +142,7 @@ parser.add_argument('-ro',"--read_object")
 parser.add_argument('-known',"--parse_uorf_object", default = False, action = "store_true")
 parser.add_argument('-uvt',"--uorf_validation_type")
 parser.add_argument('-val_uorfs',"--validated_uorfs_filename")
-parser.add_argument('-highqc',"--highqc_candidate_cutoff", default = 0.10)
+parser.add_argument('-highqc',"--highqc_candidate_cutoff", default = 0.05)
 parser.add_argument('-psite_mode',"--psite_mode", default = "singular")
 
 
@@ -411,7 +351,7 @@ def parse_resource_object():
             if args.prediction_cutoff:
                 resources_dict['prediction_cutoff'] = args.prediction_cutoff
             else:
-                resources_dict['prediction_cutoff'] = 0.5
+                resources_dict['prediction_cutoff'] = 0.0
                 
             if args.dnn_model_filename:
                 resources_dict['dnn_model_filename'] = args.dnn_model_filename
@@ -1052,8 +992,7 @@ def calculate_scramble_pval(fa_dict, coord_dict):
     outline = ('Generating random distribution for null model ...')
     print(outline)
     
-    start_codon_set = set(['ATT', 'ATC', 'TTG', 'ATA', 
-                           'CTG', 'GTG', 'ACG', 'ATG'])
+    start_codon_set = start_codons
     
     start_codon_counter = {}
     for mode in set(['lump', 'peak']):
@@ -2043,6 +1982,7 @@ def load_psite_object(psite_bedgraph_name, psite_object):
     # TODO revist loading sam files instead, bedgraphs lack the strand sensitivity that is needed 
     # text_and_sign = {'plus':'+', 
     #                    'minus':'-'}
+    
     sign = ''
     if 'plus' in psite_bedgraph_name:
         sign = '+'
@@ -2051,17 +1991,6 @@ def load_psite_object(psite_bedgraph_name, psite_object):
         sign = '-'
     
     print('sign', sign)
-#     for strain in set(['DGY1657']):
-# #    for strain in set(['DGY1726', 'DGY1735', 'DGY1741', 'DGY1743']):
-#         for replicate in set(['R1']):
-# #        for replicate in set(['R1', 'R2']):
-#             for text in text_and_sign:
-#                 for size in set(['all']):
-#                 #for size in set(['all', '28nt']):
-#                     sign = text_and_sign[text]
-#                     #infile_name = ('C:/Gresham/2023_09_11_Project_Carolino/analyses/sam/Ensembl_aligned_bedgraphs/RPF_{strain}_{replicate}_{size}_{text}.bedgraph').format(strain = strain, replicate = replicate, size = size, text = text)
-#                     #
-#                     infile_name = ('C:/Gresham/tiny_projects/quorf/{strain}_rep1_RPF_singular_{text}.bedgraph').format(strain = strain, replicate = replicate, size = size, text = text)
                     
     infile = open(psite_bedgraph_name)
     
@@ -2096,7 +2025,6 @@ def load_psite_object(psite_bedgraph_name, psite_object):
     return(psite_object)
 
 
-# -*- coding: utf-8 -*-
 """
 Created on Wed May  8 11:11:00 2024
 
@@ -2111,102 +2039,6 @@ to best determine p-site reading frame resolution on TISs.
 3. heatmap of reading frame and size
 
 """
-
-'''
-parse_rpf
-'''
-
-
-# start_codons = set(['ATG', 'TTG', 'GTG', 'CTG', 'ATA', 'ATT', 'ACG', 'ATC'])
-
-# stop_codons = set(['TAA', 'TAG', 'TGA'])
-
-# sign_to_text = {'+':'plus','-':'minus'}
-
-# def unpackbits(x,num_bits=12):
-#     '''
-#     SAM flags are bit encoded - this function seperates them and assigns labels
-#     '''
-    
-#     xshape = list(x.shape)
-#     x = x.reshape([-1,1])
-#     to_and = 2**np.arange(num_bits).reshape([1,num_bits])
-#     upb = (x & to_and).astype(bool).astype(int).reshape(xshape + [num_bits])
-
-#     #0  (rp)    read_paired
-#     #1  (rmp)    read_mapped_in_proper_pair
-#     #2  (ru)    read_unmapped
-#     #3  (mu)    mate_unmapped
-#     #4  (rrs)    read_reverse_strand
-#     #5  (mrs)    mate_reverse_strand
-#     #6  (fip)    first_in_pair
-#     #7  (sip)    second_in_pair
-#     #8  (npa)    not_primary_alignment
-#     #9  (rfp)    read_fails_platform
-#     #10 (pcr)    read_is_PCR_or_optical_duplicate
-#     #11 (sa)    supplementary_alignment
-#     """
-#     strand = unpackbits(np.array([int(line.split('\t')[1])]))[0][4]
-#     such that 0 == '+' and 1 == '-'
-#     """
-    
-#     """ DISCORDANT definition (from samblaster)
-#         Both side of the read pair are mapped (neither FLAG 0x4 or 0x8 is set).
-#         The properly paired FLAG (0x2) is not set.
-#         Note: We implemented an additional criteria to distinguish between strand re-orientations and distance issues
-#         Strand Discordant reads must be both on the same strand.
-#     """
-        
-#     """ SPLIT READS
-#         Identify reads that have between two and --maxSplitCount [2] primary and supplemental alignments.
-#         Sort these alignments by their strand-normalized position along the read.
-#         Two alignments are output as splitters if they are adjacent on the read, and meet these criteria:
-#             each covers at least --minNonOverlap [20] base pairs of the read that the other does not.
-#             the two alignments map to different reference sequences and/or strands. 
-#             the two alignments map to the same sequence and strand, and represent a SV that is at least --minIndelSize [50] in length, 
-#             and have at most --maxUnmappedBases [50] of un-aligned base pairs between them.
-#         Split read alignments that are part of a duplicate read will be output unless the -e option is used.
-#     """
-    
-#     return(upb) 
-
-
-
-
-'''
-# p_site_analysis
-'''
-
-# def load_psite_object():
-#     psite_object = {}
-    
-#     rpf_object_name = resources_dict['rpf_object']
-#     rpf_object = open(rpf_object_name, 'rb')
-#     rpf_dict = pickle.load(rpf_object)
-        
-#     for size in rpf_dict:
-#         for sign in rpf_dict[size]:
-#             if sign not in psite_object:
-#                 psite_object[sign] = {}
-                
-#             for coord_chromo in rpf_dict[size][sign]:
-#                 if 'chr' in coord_chromo:
-#                     chromo = coord_chromo.split('chr')[1]
-#                 else:
-#                     chromo = coord_chromo
-                    
-#                 if chromo not in psite_object[sign]:
-#                     psite_object[sign][chromo] = {}
-                    
-#                 for nt in rpf_dict[size][sign][coord_chromo]:
-#                     val = float(rpf_dict[size][sign][coord_chromo][nt])
-                            
-#                     if nt not in psite_object[sign][chromo]:
-#                         psite_object[sign][chromo][nt] = 0
-                        
-#                     psite_object[sign][chromo][nt] += val
-                    
-#     return(psite_object)
 
 def strand_agnostic(puorf_dict, psite_object):    
     relative_puorf_dict = {}
@@ -2244,7 +2076,6 @@ def strand_agnostic(puorf_dict, psite_object):
             puorf_dict[gene][puorf]['right'] = rel_stop
             puorf_dict[gene][puorf]['mask_stop'] = mask_stop
                                 
-            # TODO - change of if statement 01.30.24
             if gene not in relative_puorf_dict:
                 relative_puorf_dict[gene] = {}
                 
@@ -2299,17 +2130,7 @@ def strand_agnostic(puorf_dict, psite_object):
                 psite_dict[rnt] = val
                 
             relative_puorf_dict[gene][puorf]['psite_dict'] = psite_dict
-        
-        '''checked - passed
-        #if (gene == 'YEL009C'): 
-        if (gene == 'YKR042W'): 
-            print(gene)
-            print(puorf_dict[gene])
-            print('#')
-            print(relative_puorf_dict[gene])
-            1/0
-        '''
-                    
+                            
     return(relative_puorf_dict)
 
 def if_in_else_zero(num, psite_dict):
@@ -2335,37 +2156,34 @@ def detect_overflow(puorf_features, start_codons_by_chromo):
                 if (rnt in psite_dict):
                     lump_sum += psite_dict[rnt]
             puorf_features[uid]['lump_sum'] = lump_sum
-        
-            #using a 10% leniency
-            if (1.1*tis_val) <= (lump_sum/2):
-                if (1.1*tis_val) >= tis_three_up:
-                    if (1.1*tis_one_up) >= tis_two_up:
-                        if (1.1*tis_two_up) >= tis_three_up:
-                            chromo = puorf_features[uid]['_chromo']
-                            sign = puorf_features[uid]['_sign']
-                            
-                            start_set = start_codons_by_chromo[chromo]
-        
-                            another_option = -1
-                            if sign == '+':
-                                lookaround_nt = min(puorf_features[uid]['_left'], puorf_features[uid]['_right'])
-                                for coord_nt in range(lookaround_nt - 3, lookaround_nt):
-                                    if coord_nt in start_set:
-                                        another_option = coord_nt
-                                    
-                            else:
-                                lookaround_nt = max(puorf_features[uid]['_left'], puorf_features[uid]['_right'])
-                                for coord_nt in range(lookaround_nt + 1, lookaround_nt + 4):
-                                    if coord_nt in start_set:
-                                        another_option = coord_nt
-                            
-                            puorf_features[uid]['another_option'] = another_option
-                            
-                            puorf_features[uid]['lump'] = 'lump'
-                                
-            #test from right
-            #YCR024C-A III 163185	163208
+            puorf_features[uid]['tis_val'] = tis_val
             
+            #using a 10% leniency
+            if (1.1*tis_val) >= (lump_sum/2):
+                if ((1.1*tis_val >= tis_three_up and 1.1*tis_one_up >= tis_two_up) or (1.1*tis_two_up >= tis_one_up)):
+                    chromo = puorf_features[uid]['_chromo']
+                    sign = puorf_features[uid]['_sign']
+                    
+                    start_set = start_codons_by_chromo[chromo]
+
+                    another_option = -1
+                    if sign == '+':
+                        lookaround_nt = min(puorf_features[uid]['_left'], puorf_features[uid]['_right'])
+                        for coord_nt in range(lookaround_nt - 3, lookaround_nt):
+                            if coord_nt in start_set:
+                                another_option = coord_nt
+                            
+                    else:
+                        lookaround_nt = max(puorf_features[uid]['_left'], puorf_features[uid]['_right'])
+                        for coord_nt in range(lookaround_nt + 1, lookaround_nt + 4):
+                            if coord_nt in start_set:
+                                another_option = coord_nt
+                    
+                    puorf_features[uid]['another_option'] = another_option
+                    
+                    puorf_features[uid]['lump'] = 'lump'
+                                
+            #test from right            
             psite_dict = puorf_features[uid]['_drop_psite_dict']
             tis_val = if_in_else_zero(0, psite_dict)
             tis_one_up = if_in_else_zero(1, psite_dict)
@@ -2378,31 +2196,29 @@ def detect_overflow(puorf_features, start_codons_by_chromo):
                     lump_sum += psite_dict[rnt]
             puorf_features[uid]['lump_sum'] = lump_sum
         
-            if (1.1*tis_val) <= (lump_sum/2):
-                if (1.1*tis_val) >= tis_three_up:
-                    if (1.1*tis_one_up) >= tis_two_up:
-                        if (1.1*tis_two_up) >= tis_three_up:
-                            chromo = puorf_features[uid]['_chromo']
-                            sign = puorf_features[uid]['_sign']
+            if (1.1*tis_val) >= (lump_sum/2):
+                if ((1.1*tis_val >= tis_three_up and 1.1*tis_one_up >= tis_two_up) or (1.1*tis_two_up >= tis_one_up)):
+                    chromo = puorf_features[uid]['_chromo']
+                    sign = puorf_features[uid]['_sign']
+                    
+                    start_set = start_codons_by_chromo[chromo]
+
+                    another_option = -1
+                    if sign == '+':
+                        lookaround_nt = min(puorf_features[uid]['_left'], puorf_features[uid]['_right'])
+                        for coord_nt in range(lookaround_nt - 3, lookaround_nt):
+                            if coord_nt in start_set:
+                                another_option = coord_nt
                             
-                            start_set = start_codons_by_chromo[chromo]
-        
-                            another_option = -1
-                            if sign == '+':
-                                lookaround_nt = min(puorf_features[uid]['_left'], puorf_features[uid]['_right'])
-                                for coord_nt in range(lookaround_nt - 3, lookaround_nt):
-                                    if coord_nt in start_set:
-                                        another_option = coord_nt
-                                    
-                            else:
-                                lookaround_nt = max(puorf_features[uid]['_left'], puorf_features[uid]['_right'])
-                                for coord_nt in range(lookaround_nt + 1, lookaround_nt + 4):
-                                    if coord_nt in start_set:
-                                        another_option = coord_nt
-                            
-                            puorf_features[uid]['another_option'] = another_option
-                            
-                            puorf_features[uid]['lump'] = 'lump'
+                    else:
+                        lookaround_nt = max(puorf_features[uid]['_left'], puorf_features[uid]['_right'])
+                        for coord_nt in range(lookaround_nt + 1, lookaround_nt + 4):
+                            if coord_nt in start_set:
+                                another_option = coord_nt
+                    
+                    puorf_features[uid]['another_option'] = another_option
+                    
+                    puorf_features[uid]['lump'] = 'lump'
                             
     return(puorf_features)
         
@@ -2602,8 +2418,6 @@ def build_features(puorf_features, relative_puorf_dict, validated_uorfs):
                 
                 #continuity
                 continuity_list = []
-                #print(gene, puorf_features[uid]['_chromo'], puorf_features[uid]['_left'], puorf_features[uid]['_right'])
-                #print(psite_dict)
                 
                 for i in range(max(psite_dict)):
                     codon_start = 0+i*3
@@ -2960,13 +2774,12 @@ if args.build_features_object:
     outline = ("Beginning to build and score features...")
     print(outline)
     
-    #TODO fuck - this needs to be a list
     psite_bedgraph_names = resources_dict['bedgraph_filenames']
+    highqc_candidate_cutoff = float(resources_dict['highqc_candidate_cutoff'])
     
     bedgraph_filenames = resources_dict['bedgraph_filenames']
     bedgraph_file = open(bedgraph_filenames, 'rb')
     bedgraph_set = pickle.load(bedgraph_file)
-    print('bedgraph_set', bedgraph_set)
     
     genome_object = resources_dict['genome_object']
     puorf_file = open(genome_object, 'rb')
@@ -2995,7 +2808,7 @@ if args.build_features_object:
     start_codon_counter = calculate_scramble_pval(fa_dict, coord_dict)
     
     # using the scramble as a fdr calc and set the qc
-    cut_off_lookup_dict = features_to_bed(puorf_features, start_codon_counter, 0.05)
+    cut_off_lookup_dict = features_to_bed(puorf_features, start_codon_counter, highqc_candidate_cutoff)
 
     features_object_filename = resources_dict['features_object_filename']
     df = pd.DataFrame.from_dict(puorf_features, orient='index')
@@ -3032,22 +2845,26 @@ if args.build_features_object:
     print(outline)
 
 # for torch
-if args.train_model:    
+if args.train_model:
     train_object_features_filename = resources_dict['train_object_features']
+    
+    print(train_object_features_filename)
+    
     dnn_model_filename = resources_dict['dnn_model_filename']
     
     outline = ('Training model on {}').format(train_object_features_filename)
     print(outline)
         
     # Read data
-    data = pd.read_csv(train_object_features_filename, header=None)
+    data = pd.read_csv(train_object_features_filename, header=0)
+    print(data.head())
     X = data.iloc[:, 1:-1]
     y = data.iloc[:, -1]
-    
+    print(X.head())
     # Binary encoding of labels
-    encoder = LabelEncoder()
-    encoder.fit(y)
-    y = encoder.transform(y)
+    # encoder = LabelEncoder()
+    # encoder.fit(y)
+    # y = encoder.transform(y)
     
     # Convert to 2D PyTorch tensors
     X = torch.tensor(X.values, dtype=torch.float32)
@@ -3110,6 +2927,7 @@ if args.train_model:
     # define 5-fold cross validation test harness
     kfold = StratifiedKFold(n_splits=5, shuffle=True)
     cv_scores_deep = []
+    
     for train, test in kfold.split(X_train, y_train):
         # create model, train, and get accuracy
         model = zagreus()
@@ -3119,6 +2937,7 @@ if args.train_model:
     
     deep_acc = np.mean(cv_scores_deep)
     deep_std = np.std(cv_scores_deep)
+    
     print("Deep: %.2f%% (+/- %.2f%%)" % (deep_acc*100, deep_std*100))
     
     # rebuild model with full set of training data
@@ -3138,7 +2957,7 @@ if args.train_model:
     
     outline = ('Model saved as: {}').format(dnn_model_filename)
     print(outline)
-            
+    
 # for torch
 if args.predict:
             
@@ -3290,3 +3109,55 @@ if args.run_analysis:
                        run_name = run_name)
     print(bashCommand)
     subprocess.run([bashCommand],stderr=subprocess.STDOUT,shell=True)
+        
+
+
+# predictions_filename = ('C:/Gresham/tiny_projects/uorfish/test/test_predictions.csv')
+
+# df = pd.read_csv(predictions_filename)
+    
+# predictions = df.to_dict('index')
+
+# #maximize_cm = {'Tt':0, 'Tf': 0, 'Ft': 0, 'Ff': 0}
+# max_score = -1*np.inf
+# score_list = []
+# opt_threshold = 0
+
+# for i in range(0,101):
+#     threshold = i/100
+#     maximize_cm = {'Tt':0, 'Tf': 0, 'Ft': 0, 'Ff': 0}
+    
+#     for puorf in predictions:
+#         if predictions[puorf]['cm'] != 'xx':
+#             if predictions[puorf]['predict'] >= threshold:
+#                 if predictions[puorf]['_is_uorf']:
+#                     maximize_cm['Tt'] += 1
+#                 else:
+#                     maximize_cm['Tf'] += 1
+#             else:
+#                 if predictions[puorf]['_is_uorf']:
+#                     maximize_cm['Ft'] += 1
+#                 else:
+#                     maximize_cm['Ff'] += 1
+#     tpr = maximize_cm['Tt']/(maximize_cm['Tt'] + maximize_cm['Ft'])
+#     fpr = maximize_cm['Tf']/(maximize_cm['Ff'] + maximize_cm['Tf'])
+#     score =  tpr / fpr
+#     score_list.append(score)
+    
+#     #score = -1* (maximize_cm['Ft'] + maximize_cm['Tf'])
+    
+#     if score >= max_score:
+#         print(threshold, score, maximize_cm)
+#         max_score = score
+#         opt_threshold = threshold
+        
+# from numpy import trapz
+
+
+# # The y values.  A numpy array is used here,
+# # but a python list could also be used.
+# y = np.array(score_list)
+
+# # Compute the area using the composite trapezoidal rule.
+# area = trapz(y, dx=1)
+# print("area =", area)
